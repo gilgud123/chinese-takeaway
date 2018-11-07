@@ -51,7 +51,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<?> takeOrder(@RequestBody @Validated OrderCommand orderCommand){
         try{
-            return new ResponseEntity<>(orderCommand, HttpStatus.OK);
+            return new ResponseEntity<>(orderService.takeOrder(orderCommand), HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
