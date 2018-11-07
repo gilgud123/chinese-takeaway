@@ -35,7 +35,6 @@ public class Bootstrap implements CommandLineRunner {
         this.mongoTemplate = mongoTemplate;
     }
 
-    //twee command runners aanmaken
     @Override
     public void run(String... args) throws Exception {
 
@@ -73,6 +72,7 @@ public class Bootstrap implements CommandLineRunner {
                     mealRepository.save(meal2);
                     LOGGER.info("2 meals created");
 
+                    //creating dummy orders
                     Order order1 = Order.builder()
                                 .customerName("Peter Pan")
                                 .meals(new ArrayList<Meal>(Arrays.asList(meal1, meal2)))
