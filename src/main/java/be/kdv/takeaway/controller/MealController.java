@@ -46,13 +46,4 @@ public class MealController {
         }
     }
 
-    //TODO to be refactored and saved into a separate collection/document
-    @GetMapping("/stats")
-    public List<Meal> showStats(){
-        List<Meal> stats = mealService.getStats();
-        stats.forEach(meal ->
-                        LOGGER.info("This month the meal {} has been ordered {} times", meal.getName(), meal.getStats()));
-        return stats;
-    }
-
 }

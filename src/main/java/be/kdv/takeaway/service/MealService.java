@@ -33,10 +33,4 @@ public class MealService {
         return optionalAllergies.orElseThrow(MealNotFoundException::new);
     }
 
-    //TODO to be refactored
-    public List<Meal> getStats(){
-        Optional<List<Meal>> optionalMeals = mealRepository.findByOrderByStatsDesc();
-        return optionalMeals.orElseThrow(MealNotFoundException::new);
-    }
-
 }

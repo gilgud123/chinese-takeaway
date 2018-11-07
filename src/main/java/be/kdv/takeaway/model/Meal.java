@@ -31,7 +31,7 @@ public class Meal {
 
     private String description;
 
-    private List<Allergy> allergies = new ArrayList<Allergy>();
+    private List<Allergy> allergies;
 
     private int stats;
 

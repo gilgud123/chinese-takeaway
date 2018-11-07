@@ -35,13 +35,11 @@ public class Bootstrap implements CommandLineRunner {
         this.mongoTemplate = mongoTemplate;
     }
 
-    //twee command runners aanmaken
     @Override
     public void run(String... args) throws Exception {
 
         if ((mealRepository.findAll().isEmpty() || orderRepository.findAll().isEmpty())) {
 
-            //clear old broken data
             mongoTemplate.getCollectionNames().forEach(mongoTemplate::dropCollection);
             LOGGER.info("Cleared old data");
 
