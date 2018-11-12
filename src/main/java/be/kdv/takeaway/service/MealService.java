@@ -8,8 +8,13 @@ import be.kdv.takeaway.repository.MealRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -29,8 +34,16 @@ public class MealService {
         if(allergies == null){
             throw new InputNotValidException();
         }
-        Optional<List<Meal>> optionalAllergies = mealRepository.getAllByAllergies(allergies);
-        return optionalAllergies.orElseThrow(MealNotFoundException::new);
+
+        List<Meal> allergyFreeMeals = getAllMeals();
+
+        for (Meal meal : getAllMeals()) {
+            Arrays.stream(allergies)
+                    .forEach(allergy -> {
+                        if (meal.getAllergies().contains(allergy)) allergyFreeMeals.remove(meal);
+                    });
+        }
+        return allergyFreeMeals;
     }
 
     //TODO to be refactored

@@ -24,11 +24,12 @@ public class StatsService {
         statsRepository.save(stats);
     }
 
-    public void addStatsToMeal(Meal meal){
+    void addStatsToMeal(int mealNumber){
         if(statsRepository.findAll().isEmpty()){
             initStats();
         };
-
-        statsRepository.findAll().get(0).addMealToStats(meal.getMenuNumber());
+        Stats statsToSave = statsRepository.findAll().get(0);
+        statsToSave.addMealToStats(mealNumber);
+        statsRepository.save(statsToSave);
     }
 }

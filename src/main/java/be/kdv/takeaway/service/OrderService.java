@@ -76,7 +76,7 @@ public class OrderService {
             Meal meal = mealRepository.getByMenuNumber(mealnr).orElseThrow(MealNotFoundException::new);
             order.getMeals().add(meal);
             //adding the meal to the static hashmap with the statistics for all meals
-            statsService.addStatsToMeal(meal);
+            statsService.addStatsToMeal(mealnr);
                 });
 
         return orderRepository.save(order);

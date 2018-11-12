@@ -1,7 +1,6 @@
 package be.kdv.takeaway.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,11 +18,10 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Document(collection = "stats")
 public class Stats {
 
-    //private final Logger LOGGER = LoggerFactory.getLogger(Stats.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(Stats.class);
 
     @Id
     private String id;
@@ -39,13 +37,16 @@ public class Stats {
             mealStats.put(meal.getMenuNumber(), 0);
         });
 
-        //LOGGER.info("Statistics for {} meals will be logged from now on", mealStats.keySet().size());
+        LOGGER.info("Statistics for {} meals will be logged from now on", mealStats.keySet().size());
     }
 
     public void addMealToStats(int mealNumber){
         if(mealStats.containsKey(mealNumber)){
             int mealStat = mealStats.get(mealNumber);
+            LOGGER.info("The meal value is {}", mealStat);
             mealStats.replace(mealNumber, ++mealStat);
+        }else{
+            LOGGER.info("The meal number is is not present in our menu");
         }
     }
 
