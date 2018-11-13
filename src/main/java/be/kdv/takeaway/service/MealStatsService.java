@@ -49,6 +49,7 @@ public class MealStatsService {
     }
 
     public MealStats showStats(){
+        if(mealStatsRepository.findAll().isEmpty()) return mealStatsRepository.save(initStats());
         return mealStatsRepository.findAll().get(0);
     }
 }
