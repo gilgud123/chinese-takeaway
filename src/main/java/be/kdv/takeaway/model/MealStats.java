@@ -31,8 +31,6 @@ public class MealStats {
     @Id
     private String id;
 
-    private List<Meal> meals;
-
     private Map<Integer, Integer> mealStatistics = new HashMap<>();
 
 }

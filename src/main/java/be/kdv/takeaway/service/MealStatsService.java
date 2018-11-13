@@ -47,4 +47,8 @@ public class MealStatsService {
         }
         LOGGER.info("Meal stats are: {}", mealStatsRepository.findAll().toString());
     }
+
+    public MealStats showStats(){
+        return mealStatsRepository.findAll().get(0);
+    }
 }
