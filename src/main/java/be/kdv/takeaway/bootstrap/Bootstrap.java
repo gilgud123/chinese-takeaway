@@ -50,14 +50,12 @@ public class Bootstrap implements CommandLineRunner {
                             .name("basic")
                             .description("Basic set")
                             .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.NUTS, Allergy.LACTOSE)))
-                            .stats(0)
                             .build();
                     Meal meal2 = Meal.builder()
                             .menuNumber(2)
                             .name("medium")
                             .description("Peking duck")
                             .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.GLUTEN, Allergy.NUTS)))
-                            .stats(0)
                             .build();
 
                     Meal meal3 = Meal.builder()
@@ -65,7 +63,6 @@ public class Bootstrap implements CommandLineRunner {
                             .name("Lux")
                             .description("Chef's speciality")
                             .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.GLUTEN, Allergy.SHELLFISH)))
-                            .stats(0)
                             .build();
 
                     mealRepository.save(meal1);

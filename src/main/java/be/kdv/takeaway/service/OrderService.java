@@ -29,10 +29,16 @@ public class OrderService {
 
     private MealRepository mealRepository;
     private OrderRepository orderRepository;
+    private MealStatsService mealStatsService;
 
-    public OrderService(MealRepository mealRepository, OrderRepository orderRepository) {
+    public OrderService(
+            MealRepository mealRepository,
+            OrderRepository orderRepository,
+            MealStatsService mealStatsService
+    ) {
         this.mealRepository = mealRepository;
         this.orderRepository = orderRepository;
+        this.mealStatsService = mealStatsService;
     }
 
     public List<Order> getAll(){
@@ -69,7 +75,7 @@ public class OrderService {
         orderCommand.getMeals().forEach(mealnr -> {
             Meal meal = mealRepository.getByMenuNumber(mealnr).orElseThrow(MealNotFoundException::new);
             order.getMeals().add(meal);
-           //stats to be repalced in another feature
+            mealStatsService.addStats(mealnr);
                 });
 
         return orderRepository.save(order);
@@ -85,5 +91,6 @@ public class OrderService {
         if (name == null || name.isEmpty()) {
             throw new InputNotValidException();}
             return orderRepository.findByCustomerName(name).orElseThrow(OrderNotFoundException::new);
-        }
+    }
+
 }
