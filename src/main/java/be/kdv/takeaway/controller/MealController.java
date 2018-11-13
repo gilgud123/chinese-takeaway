@@ -38,7 +38,7 @@ public class MealController {
     }
 
     @PostMapping("/allergies")
-    public ResponseEntity<?> getAllergyFreeMeals(@RequestBody Allergy... allergies) {
+    public ResponseEntity<?> getAllergyFreeMeals(@RequestBody String... allergies) {
         try {
             return new ResponseEntity<>(mealService.excludeAllergy(allergies), HttpStatus.OK);
         }catch (Exception e){
@@ -49,10 +49,7 @@ public class MealController {
     //TODO to be refactored and saved into a separate collection/document
     @GetMapping("/stats")
     public List<Meal> showStats(){
-        List<Meal> stats = mealService.getStats();
-        stats.forEach(meal ->
-                        LOGGER.info("This month the meal {} has been ordered {} times", meal.getName(), meal.getStats()));
-        return stats;
+        return null;
     }
 
 }

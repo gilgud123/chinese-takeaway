@@ -10,8 +10,4 @@ import java.util.Optional;
 public interface MealRepository extends MongoRepository<Meal, String> {
 
     Optional<Meal> getByMenuNumber(int menuNumber);
-
-    Optional<List<Meal>> getAllByAllergies(Allergy... allergies);
-
-    Optional<List<Meal>> findByOrderByStatsDesc();
 }

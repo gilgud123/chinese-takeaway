@@ -1,5 +1,6 @@
 package be.kdv.takeaway.command;
 
+import be.kdv.takeaway.model.Allergy;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
@@ -7,20 +8,19 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonSerialize(as = OrderCommand.class)
-@JsonDeserialize(as = OrderCommand.class)
-public class OrderCommand {
+@JsonSerialize(as = MealCommand.class)
+@JsonDeserialize(as = MealCommand.class)
+public class MealCommand {
 
-    @NotNull
-    private String customerName;
+    private int menuNumber;
 
-    @NotNull
-    private List<Integer> meals;
+    private List<Allergy> allergies = new ArrayList<Allergy>();
+
 }
