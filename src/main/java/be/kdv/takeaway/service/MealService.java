@@ -56,9 +56,4 @@ public class MealService {
         return getAllMeals().stream().filter(meal -> !allergenicMeals.contains(meal)).collect(Collectors.toList());
     }
 
-    //TODO to be refactored
-    public List<Meal> getStats(){
-        return null;
-    }
-
 }
