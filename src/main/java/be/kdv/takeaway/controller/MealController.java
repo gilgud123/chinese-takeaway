@@ -46,10 +46,4 @@ public class MealController {
         }
     }
 
-    //TODO to be refactored and saved into a separate collection/document
-    @GetMapping("/stats")
-    public List<Meal> showStats(){
-        return null;
-    }
-
 }
