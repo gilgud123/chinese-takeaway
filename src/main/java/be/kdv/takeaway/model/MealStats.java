@@ -25,7 +25,6 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
 @Document(collection = "stats")
 public class MealStats {
 
