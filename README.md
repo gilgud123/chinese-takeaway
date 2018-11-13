@@ -28,7 +28,10 @@ A customer walks in the takeaway and asks Hu a list of meals that do not contain
 Statistics
 At the end of the month, Hu and So evaluate their business and want to know which meals are the most favourite of their clients. That way they can optimise their stock and reduces their ecological footprint. Make sure the system can deliver this information using a REST call.
 
-Recent activity 
-Finished refactoring the stats feature.
-Allergies needs refactoring.
-Plans to move to Spring Data REST.
+Recent activity:
+
+* Finished refactoring the stats feature.
+
+* Allergies needs refactoring.
+
+* Plans to move to Spring Data REST.
