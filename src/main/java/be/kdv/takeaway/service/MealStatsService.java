@@ -40,7 +40,7 @@ public class MealStatsService {
             mealStatsRepository.save(stats);
         }else {
             stats = mealStatsRepository.findAll().get(0);
-            int mealStatValue = stats.getMealStatistics().get(mealnumber);
+            int mealStatValue = stats.getMealStatistics().getOrDefault(mealnumber, 0);
             LOGGER.info("value: {}", mealStatValue);
             stats.getMealStatistics().put(mealnumber, ++mealStatValue);
             mealStatsRepository.save(stats);
