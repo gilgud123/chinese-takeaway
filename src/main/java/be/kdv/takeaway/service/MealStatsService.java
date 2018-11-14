@@ -1,5 +1,6 @@
 package be.kdv.takeaway.service;
 
+/*
 import be.kdv.takeaway.model.Meal;
 import be.kdv.takeaway.model.MealStats;
 import be.kdv.takeaway.repository.MealRepository;
@@ -48,8 +49,11 @@ public class MealStatsService {
         LOGGER.info("Meal stats are: {}", mealStatsRepository.findAll().toString());
     }
 
-    public MealStats showStats(){
+    */
+/*public MealStats showStats(){
         if(mealStatsRepository.findAll().isEmpty()) return mealStatsRepository.save(initStats());
         return mealStatsRepository.findAll().get(0);
-    }
+    }*//*
+
 }
+*/

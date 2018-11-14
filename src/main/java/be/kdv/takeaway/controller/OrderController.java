@@ -1,5 +1,6 @@
 package be.kdv.takeaway.controller;
 
+/*
 import be.kdv.takeaway.command.OrderCommand;
 import be.kdv.takeaway.model.Order;
 import be.kdv.takeaway.model.Status;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.List;
 
@@ -83,3 +85,4 @@ public class OrderController {
     }
 
 }
+*/

@@ -2,7 +2,6 @@ package be.kdv.takeaway.service;
 
 import be.kdv.takeaway.bootstrap.Bootstrap;
 import be.kdv.takeaway.exception.InputNotValidException;
-import be.kdv.takeaway.exception.MealNotFoundException;
 import be.kdv.takeaway.model.Allergy;
 import be.kdv.takeaway.model.Meal;
 import be.kdv.takeaway.repository.MealRepository;
@@ -14,10 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -31,10 +27,6 @@ public class MealService {
         this.mealRepository = mealRepository;
     }
 
-    public List<Meal> getAllMeals(){
-        return mealRepository.findAll();
-    }
-
     public List<Meal> excludeAllergy(String... allergies){
         if(allergies == null){
             throw new InputNotValidException();
@@ -42,7 +34,7 @@ public class MealService {
 
         List<Meal> allergenicMeals = new ArrayList<>();
 
-        for (Meal meal : getAllMeals()) {
+        for (Meal meal : mealRepository.findAll()) {
             Arrays.stream(allergies)
                     .forEach(allergy -> {
                         if (meal.getAllergies().contains(Allergy.fromString(allergy)))
@@ -53,7 +45,7 @@ public class MealService {
                     });
         }
         LOGGER.info("{}", allergenicMeals.toString());
-        return getAllMeals().stream().filter(meal -> !allergenicMeals.contains(meal)).collect(Collectors.toList());
+        return mealRepository.findAll().stream().filter(meal -> !allergenicMeals.contains(meal)).collect(Collectors.toList());
     }
 
 }
