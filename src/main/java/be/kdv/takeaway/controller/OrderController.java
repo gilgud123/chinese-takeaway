@@ -1,11 +1,13 @@
 package be.kdv.takeaway.controller;
 
-/*
 import be.kdv.takeaway.command.OrderCommand;
 import be.kdv.takeaway.model.Order;
 import be.kdv.takeaway.model.Status;
 import be.kdv.takeaway.service.OrderService;
+import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,29 +15,20 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/orders")
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
+@RepositoryRestController
 public class OrderController {
 
     private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
-    }
-
-    @GetMapping
-    public ResponseEntity<?> getAllOrders(){
-        try{
-            return new ResponseEntity<>(orderService.getAll(), HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-        }
     }
 
     @GetMapping("/cook")
@@ -50,27 +43,19 @@ public class OrderController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<?> takeOrder(@RequestBody @Validated OrderCommand orderCommand){
-        try{
-            return new ResponseEntity<>(orderService.takeOrder(orderCommand), HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-        }
+    @PostMapping(path = "/orders", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<?> takeOrder(@RequestBody @Validated OrderCommand orderCommand){
+
+        Order order = orderService.takeOrder(orderCommand);
+
+        Resource<Order> resource = new Resource<Order>(order);
+
+        resource.add(linkTo(methodOn(OrderController.class).takeOrder(orderCommand)).withSelfRel());
+
+        return ResponseEntity.ok(resource);
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<?> getOrderStatus(@PathVariable String name){
-        try{
-            Order order = orderService.findByCustormerName(name);
-            return new ResponseEntity<>(order, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-        }
-
-    }
-
-    @PatchMapping("/{id}/{status}")
+    /*@PatchMapping("")
     public ResponseEntity<?> changeOrderStatus(@PathVariable String id, @PathVariable String status){
         try{
             orderService.changeStatus(
@@ -82,7 +67,7 @@ public class OrderController {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
 
-    }
+    }*/
 
 }
-*/
+

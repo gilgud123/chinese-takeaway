@@ -17,5 +17,5 @@ public interface OrderRepository extends MongoRepository<Order, String> {
     Optional<List<Order>> findByStatusInOrderByCreatedAtAsc(@Param("status")Status... status);
 
     @RestResource(path = "name")
-    Order findByCustomerName(@Param("name") String customerName);
+    public List<Order> findByCustomerName(@Param("name") String customerName);
 }

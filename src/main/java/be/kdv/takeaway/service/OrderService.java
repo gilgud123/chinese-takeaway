@@ -1,6 +1,6 @@
 package be.kdv.takeaway.service;
 
-/*import be.kdv.takeaway.bootstrap.Bootstrap;
+import be.kdv.takeaway.bootstrap.Bootstrap;
 import be.kdv.takeaway.command.OrderCommand;
 import be.kdv.takeaway.exception.InputNotValidException;
 import be.kdv.takeaway.exception.MealNotFoundException;
@@ -41,14 +41,6 @@ public class OrderService {
         this.mealStatsService = mealStatsService;
     }
 
-    public List<Order> getAll(){
-        return orderRepository.findAll();
-    }
-
-    public Order getById(String id){
-        return orderRepository.findById(id).orElse(null);
-    }
-
     public List<Order> getAllOrdersNotDone(){
         Optional<List<Order>> optionalOrders = orderRepository.findByStatusInOrderByCreatedAtAsc(Status.PREPARING, REQUESTED);
         return optionalOrders.orElseThrow(OrderNotFoundException::new);
@@ -87,10 +79,4 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public Order findByCustormerName(String name) {
-        if (name == null || name.isEmpty()) {
-            throw new InputNotValidException();}
-            return orderRepository.findByCustomerName(name).orElseThrow(OrderNotFoundException::new);
-    }
-
-}*/
+}

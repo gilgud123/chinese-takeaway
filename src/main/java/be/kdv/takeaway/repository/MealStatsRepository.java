@@ -9,5 +9,4 @@ import java.util.List;
 @RepositoryRestResource(collectionResourceRel = "stats", path = "stats")
 public interface MealStatsRepository extends MongoRepository<MealStats, String> {
 
-    List<MealStats> findAll();
 }
