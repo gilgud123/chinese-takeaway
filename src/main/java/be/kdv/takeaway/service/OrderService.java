@@ -41,6 +41,10 @@ public class OrderService {
         this.mealStatsService = mealStatsService;
     }
 
+    public Order getById(String id){
+        return orderRepository.findById(id).orElseThrow(InputNotValidException::new);
+    }
+
     public List<Order> getAllOrdersNotDone(){
         Optional<List<Order>> optionalOrders = orderRepository.findByStatusInOrderByCreatedAtAsc(Status.PREPARING, REQUESTED);
         return optionalOrders.orElseThrow(OrderNotFoundException::new);

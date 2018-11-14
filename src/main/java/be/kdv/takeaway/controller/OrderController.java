@@ -55,17 +55,13 @@ public class OrderController {
         return ResponseEntity.ok(resource);
     }
 
-    /*@PatchMapping("")
+    /*@PatchMapping("/orders/{id}/{status}")
     public ResponseEntity<?> changeOrderStatus(@PathVariable String id, @PathVariable String status){
-        try{
-            orderService.changeStatus(
-                    orderService.getById(id),
-                    Status.valueOf(status.toUpperCase())
-            );
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-        }
+        orderService.changeStatus(
+                orderService.getById(id),
+                Status.valueOf(status.toUpperCase())
+        );
+
 
     }*/
 
