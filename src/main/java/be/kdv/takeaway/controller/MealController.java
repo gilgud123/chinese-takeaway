@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +29,9 @@ public class MealController {
         this.mealService = mealService;
     }
 
-    @PostMapping("/meals/search/allergies")
+    @PostMapping(path = "/meals/search/allergies", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<?> getAllergyFreeMeals(@RequestBody String... allergies) {
+
         List<Meal> allergyFreeMeals = mealService.excludeAllergy();
 
         Resources<Meal> resources = new Resources<Meal>(allergyFreeMeals);
