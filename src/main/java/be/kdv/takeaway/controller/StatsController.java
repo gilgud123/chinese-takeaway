@@ -4,7 +4,6 @@ import be.kdv.takeaway.model.MealStats;
 import be.kdv.takeaway.service.MealStatsService;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
