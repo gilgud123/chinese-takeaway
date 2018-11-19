@@ -4,8 +4,10 @@ import be.kdv.takeaway.model.Allergy;
 import be.kdv.takeaway.model.Meal;
 import be.kdv.takeaway.model.Order;
 import be.kdv.takeaway.model.Status;
+import be.kdv.takeaway.model.User;
 import be.kdv.takeaway.repository.MealRepository;
 import be.kdv.takeaway.repository.OrderRepository;
+import be.kdv.takeaway.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -24,14 +26,18 @@ public class Bootstrap implements CommandLineRunner {
 
     private final MealRepository mealRepository;
     private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
     private final MongoTemplate mongoTemplate;
 
     public Bootstrap(
             MealRepository mealRepository,
             OrderRepository orderRepository,
-            MongoTemplate mongoTemplate) {
+            UserRepository userRepository,
+            MongoTemplate mongoTemplate
+    ) {
         this.mealRepository = mealRepository;
         this.orderRepository = orderRepository;
+        this.userRepository = userRepository;
         this.mongoTemplate = mongoTemplate;
     }
 
@@ -89,6 +95,24 @@ public class Bootstrap implements CommandLineRunner {
                         orderRepository.save(order1);
                         orderRepository.save(order2);
                         LOGGER.info("2 orders created");
+        }
+
+        if(userRepository.findAll().isEmpty()){
+
+            //create users
+            User user1 = User.builder()
+                    .name("Hu Awai")
+                    .password("prutser123")
+                    .email("info@takeaway.be")
+                    .build();
+            User user2 = User.builder()
+                    .name("So Ni")
+                    .password("prutser123")
+                    .build();
+
+            userRepository.save(user1);
+            userRepository.save(user2);
+            LOGGER.info("2 users created");
         }
     }
 }
