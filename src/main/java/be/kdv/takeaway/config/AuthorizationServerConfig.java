@@ -32,7 +32,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1*60*60;
     private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60;
 
-
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 

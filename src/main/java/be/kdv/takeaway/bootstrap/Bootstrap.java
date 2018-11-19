@@ -101,12 +101,12 @@ public class Bootstrap implements CommandLineRunner {
 
             //create users
             User user1 = User.builder()
-                    .name("Hu Awai")
+                    .username("Hu Awai")
                     .password("prutser123")
                     .email("info@takeaway.be")
                     .build();
             User user2 = User.builder()
-                    .name("So Ni")
+                    .username("So Ni")
                     .password("prutser123")
                     .build();
 

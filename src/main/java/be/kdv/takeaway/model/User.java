@@ -7,8 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -16,16 +20,40 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Builder
 @Document(collection = "users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     private String id;
 
     @NotNull
-    private String name;
+    private String username;
 
     @NotNull
     private String password;
 
     private String email;
+
+    private boolean enabled;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new ArrayList<GrantedAuthority>();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        // we never lock accounts
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // credentials never expire
+        return true;
+    }
 }
