@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHand
 
 @Configuration
 @EnableResourceServer
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+public class ResourceServer extends ResourceServerConfigurerAdapter {
 
     private static final String RESOURCE_ID = "resource_id";
 
@@ -28,9 +28,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Value("${spring.data.rest.basePath}")
     private String resourcePath;
 
-    @Value("${token.signKey}")
-    private String tokenKey;
-
     @Value("${resource.authorities}")
     private String[] resourceAuthorities;
 
@@ -42,7 +39,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(NON_AUTHORIZED_PATHS).permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/**").authenticated()
-                .antMatchers("/" + resourcePath + "/**").hasAnyAuthority(resourceAuthorities)
+                .antMatchers(resourcePath + "/**").hasAnyAuthority(resourceAuthorities)
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }
 
@@ -50,27 +47,4 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.resourceId(RESOURCE_ID).stateless(false);
     }
-
-    // Both Authorization server and Resource server share the same application.
-    // Bean overriding not allowed here, so no token services bean duplication necessary.
-   /* @Bean
-    @Primary
-    public TokenStore tokenStore() {
-        return new JwtTokenStore(accessTokenConverter());
-    }
-
-    @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey(tokenKey);
-        return converter;
-    }
-
-    @Bean
-    @Primary
-    public DefaultTokenServices tokenServices() {
-        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(tokenStore());
-        return defaultTokenServices;
-    }*/
 }

@@ -18,9 +18,9 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 @Configuration
 @EnableAuthorizationServer
-public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
-    private static final String CLIENT_ID = "takeaway-client";
+    private static final String CLIENT_ID = "takeaway";
     private static final String CLIENT_SECRET = "$2a$10$jXpENQlTEQ5ecn90ugTyxOAotZOox7o3Kyign2NT//RZZCokPN5h2";
     private static final String GRANT_TYPE = "password";
     private static final String AUTHORIZATION_CODE = "authorization_code";
@@ -36,7 +36,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthorizationServerConfig(AuthenticationManager authenticationManager) {
+    public AuthorizationServer(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 

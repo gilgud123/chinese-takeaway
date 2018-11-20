@@ -102,12 +102,14 @@ public class Bootstrap implements CommandLineRunner {
             //create users
             User user1 = User.builder()
                     .username("Hu Awai")
-                    .password("prutser123")
+                    .password("$2a$10$jXpENQlTEQ5ecn90ugTyxOAotZOox7o3Kyign2NT//RZZCokPN5h2")
                     .email("info@takeaway.be")
+                    .enabled(true)
                     .build();
             User user2 = User.builder()
                     .username("So Ni")
-                    .password("prutser123")
+                    .password("$2a$10$jXpENQlTEQ5ecn90ugTyxOAotZOox7o3Kyign2NT//RZZCokPN5h2")
+                    .enabled(true)
                     .build();
 
             userRepository.save(user1);
