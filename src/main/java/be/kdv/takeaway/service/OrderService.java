@@ -2,6 +2,7 @@ package be.kdv.takeaway.service;
 
 import be.kdv.takeaway.bootstrap.Bootstrap;
 import be.kdv.takeaway.command.OrderCommand;
+import be.kdv.takeaway.exception.EntityNotFoundException;
 import be.kdv.takeaway.exception.InputNotValidException;
 import be.kdv.takeaway.exception.MealNotFoundException;
 import be.kdv.takeaway.exception.OrderNotFoundException;
@@ -49,11 +50,11 @@ public class OrderService {
 
     public List<Order> getAllOrdersNotDone(){
         Optional<List<Order>> optionalOrders = orderRepository.findByStatusInOrderByCreatedAtAsc(Status.PREPARING, REQUESTED);
-        return optionalOrders.orElseThrow(OrderNotFoundException::new);
+        return optionalOrders.orElseThrow(() -> new EntityNotFoundException(Order.class));
     }
 
     public Order firdFirstRequestedOrder(){
-        return orderRepository.findByStatusInOrderByCreatedAtAsc(REQUESTED).orElseThrow(OrderNotFoundException::new).get(0);
+        return orderRepository.findByStatusInOrderByCreatedAtAsc(REQUESTED).orElseThrow(() -> new EntityNotFoundException(Order.class)).get(0);
     }
 
     public Order takeOrder(OrderCommand orderCommand){
@@ -71,7 +72,7 @@ public class OrderService {
                 .build();
 
         orderCommand.getMeals().forEach(mealnr -> {
-            Meal meal = mealRepository.getByMenuNumber(mealnr).orElseThrow(MealNotFoundException::new);
+            Meal meal = mealRepository.getByMenuNumber(mealnr).orElseThrow((() -> new EntityNotFoundException(mealnr, Meal.class)));
             order.getMeals().add(meal);
             mealStatsService.addStats(mealnr);
                 });

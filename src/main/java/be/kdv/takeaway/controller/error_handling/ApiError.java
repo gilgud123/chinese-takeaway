@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +17,14 @@ public class ApiError {
     private Instant timestamp;
     private String message;
     private List<String> errors;
+
+    public ApiError(HttpStatus status, String message){
+        super();
+        this.status = status;
+        this.timestamp = Instant.now();
+        this.message = message;
+        this.errors = new ArrayList<>();
+    }
 
     public ApiError(HttpStatus status, String message, List<String> errors){
         super();
