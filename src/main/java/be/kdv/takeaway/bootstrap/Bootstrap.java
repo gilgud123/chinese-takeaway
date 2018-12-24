@@ -50,51 +50,63 @@ public class Bootstrap implements CommandLineRunner {
             mongoTemplate.getCollectionNames().forEach(mongoTemplate::dropCollection);
             LOGGER.info("Cleared old data");
 
-                    //creating dummy meals
-                    Meal meal1 = Meal.builder()
-                            .menuNumber(1)
-                            .name("basic")
-                            .description("Basic set")
-                            .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.NUTS, Allergy.LACTOSE)))
-                            .build();
-                    Meal meal2 = Meal.builder()
-                            .menuNumber(2)
-                            .name("medium")
-                            .description("Peking duck")
-                            .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.GLUTEN, Allergy.NUTS)))
-                            .build();
+            //creating dummy meals
+            Meal meal1 = Meal.builder()
+                    .menuNumber(1)
+                    .name("basic")
+                    .description("Basic set")
+                    .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.NUTS, Allergy.LACTOSE)))
+                    .build();
 
-                    Meal meal3 = Meal.builder()
-                            .menuNumber(2)
-                            .name("Lux")
-                            .description("Chef's speciality")
-                            .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.GLUTEN, Allergy.SHELLFISH)))
-                            .build();
+            Meal meal2 = Meal.builder()
+                    .menuNumber(2)
+                    .name("medium")
+                    .description("Peking duck")
+                    .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.GLUTEN, Allergy.NUTS)))
+                    .build();
 
-                    mealRepository.save(meal1);
-                    mealRepository.save(meal2);
-                    LOGGER.info("2 meals created");
+            Meal meal3 = Meal.builder()
+                    .menuNumber(2)
+                    .name("Lux")
+                    .description("Chef's speciality")
+                    .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.GLUTEN, Allergy.SHELLFISH)))
+                    .build();
 
-                    //creating dummy orders
-                    Order order1 = Order.builder()
-                                .customerName("Peter Pan")
-                                .meals(new ArrayList<Meal>(Arrays.asList(meal1, meal2)))
-                                .status(Status.REQUESTED)
-                                .createdAt(Instant.now())
-                                .readyAt(Instant.now().plus(30, ChronoUnit.MINUTES))
-                                .build();
-                    Order order2 = Order.builder()
-                                .customerName("Caption Hook")
-                                .meals(new ArrayList<Meal>(Arrays.asList(meal2, meal3)))
-                                .status(Status.PREPARING)
-                                .createdAt(Instant.now())
-                                .readyAt(Instant.now()
-                                        .plus(30, ChronoUnit.MINUTES))
-                                .build();
+            mealRepository.save(meal1);
+            mealRepository.save(meal2);
+            mealRepository.save(meal3);
+            LOGGER.info("3 meals created");
 
-                        orderRepository.save(order1);
-                        orderRepository.save(order2);
-                        LOGGER.info("2 orders created");
+            //creating dummy orders
+            Order order1 = Order.builder()
+                    .customerName("Peter Pan")
+                    .meals(new ArrayList<Meal>(Arrays.asList(meal1, meal2)))
+                    .status(Status.REQUESTED)
+                    .createdAt(Instant.now())
+                    .readyAt(Instant.now()
+                            .plus(30, ChronoUnit.MINUTES))
+                    .build();
+            Order order2 = Order.builder()
+                    .customerName("Caption Hook")
+                    .meals(new ArrayList<Meal>(Arrays.asList(meal2, meal3)))
+                    .status(Status.PREPARING)
+                    .createdAt(Instant.now())
+                    .readyAt(Instant.now()
+                            .plus(30, ChronoUnit.MINUTES))
+                    .build();
+            Order order3 = Order.builder()
+                    .customerName("Wendy")
+                    .meals(new ArrayList<Meal>(Arrays.asList(meal3)))
+                    .status(Status.REQUESTED)
+                    .createdAt(Instant.now())
+                    .readyAt(Instant.now()
+                            .plus(30, ChronoUnit.MINUTES))
+                    .build();
+
+            orderRepository.save(order1);
+            orderRepository.save(order2);
+            orderRepository.save(order3);
+            LOGGER.info("3 orders created");
         }
 
         if(userRepository.findAll().isEmpty()){
