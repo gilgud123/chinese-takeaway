@@ -57,6 +57,7 @@ public class Bootstrap implements CommandLineRunner {
                             .description("Basic set")
                             .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.NUTS, Allergy.LACTOSE)))
                             .build();
+
                     Meal meal2 = Meal.builder()
                             .menuNumber(2)
                             .name("medium")
@@ -73,7 +74,8 @@ public class Bootstrap implements CommandLineRunner {
 
                     mealRepository.save(meal1);
                     mealRepository.save(meal2);
-                    LOGGER.info("2 meals created");
+                    mealRepository.save(meal3);
+                    LOGGER.info("3 meals created");
 
                     //creating dummy orders
                     Order order1 = Order.builder()
@@ -81,7 +83,8 @@ public class Bootstrap implements CommandLineRunner {
                                 .meals(new ArrayList<Meal>(Arrays.asList(meal1, meal2)))
                                 .status(Status.REQUESTED)
                                 .createdAt(Instant.now())
-                                .readyAt(Instant.now().plus(30, ChronoUnit.MINUTES))
+                                .readyAt(Instant.now()
+                                        .plus(30, ChronoUnit.MINUTES))
                                 .build();
                     Order order2 = Order.builder()
                                 .customerName("Caption Hook")
@@ -91,10 +94,19 @@ public class Bootstrap implements CommandLineRunner {
                                 .readyAt(Instant.now()
                                         .plus(30, ChronoUnit.MINUTES))
                                 .build();
+                    Order order3 = Order.builder()
+                                .customerName("Wendy")
+                                .meals(new ArrayList<Meal>(Arrays.asList(meal3)))
+                                .status(Status.REQUESTED)
+                                .createdAt(Instant.now())
+                                .readyAt(Instant.now()
+                                        .plus(30, ChronoUnit.MINUTES))
+                                .build();
 
                         orderRepository.save(order1);
                         orderRepository.save(order2);
-                        LOGGER.info("2 orders created");
+                        orderRepository.save(order3);
+                        LOGGER.info("3 orders created");
         }
 
         if(userRepository.findAll().isEmpty()){
