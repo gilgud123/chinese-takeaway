@@ -2,7 +2,7 @@ package be.kdv.takeaway.exception;
 
 public class BadRequestException extends RuntimeException {
 
-    private String message;
+    private final String message;
 
     public BadRequestException(String message) {
 

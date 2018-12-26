@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Data
-public class ApiError {
+class ApiError {
 
     private HttpStatus status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
@@ -18,26 +18,27 @@ public class ApiError {
     private String message;
     private List<String> errors;
 
-    public ApiError(HttpStatus status, String message){
-        super();
+    private ApiError(){
+        timestamp = Instant.now();
+    }
+
+    ApiError(HttpStatus status, String message){
+        this();
         this.status = status;
-        this.timestamp = Instant.now();
         this.message = message;
         this.errors = new ArrayList<>();
     }
 
-    public ApiError(HttpStatus status, String message, List<String> errors){
-        super();
+    ApiError(HttpStatus status, String message, List<String> errors){
+        this();
         this.status = status;
-        this.timestamp = Instant.now();
         this.message = message;
         this.errors = errors;
     }
 
-    public ApiError(HttpStatus status, String message, String error){
-        super();
+    ApiError(HttpStatus status, String message, String error){
+        this();
         this.status = status;
-        this.timestamp = Instant.now();
         this.message = message;
         this.errors = Arrays.asList(error);
     }

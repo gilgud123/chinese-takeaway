@@ -5,9 +5,9 @@ package be.kdv.takeaway.exception;
  */
 public class UpdateIdDoesNotMatchException extends RuntimeException {
 
-    private String pathId;
+    private final String pathId;
 
-    private String bodyId;
+    private final String bodyId;
 
     public UpdateIdDoesNotMatchException(final String pathId, final String bodyId) {
         this.pathId = pathId;

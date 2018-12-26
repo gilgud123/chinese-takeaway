@@ -21,7 +21,7 @@ public enum Allergy {
     }
 
     @JsonValue
-    public String getAllergy(){
+    private String getAllergy(){
         return allergy;
     }
 

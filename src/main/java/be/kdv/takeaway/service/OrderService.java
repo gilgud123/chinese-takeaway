@@ -1,19 +1,13 @@
 package be.kdv.takeaway.service;
 
-import be.kdv.takeaway.bootstrap.Bootstrap;
 import be.kdv.takeaway.command.OrderCommand;
 import be.kdv.takeaway.exception.EntityNotFoundException;
 import be.kdv.takeaway.exception.InputNotValidException;
-import be.kdv.takeaway.exception.MealNotFoundException;
-import be.kdv.takeaway.exception.OrderNotFoundException;
 import be.kdv.takeaway.model.Meal;
 import be.kdv.takeaway.model.Order;
 import be.kdv.takeaway.model.Status;
 import be.kdv.takeaway.repository.MealRepository;
 import be.kdv.takeaway.repository.OrderRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -25,14 +19,11 @@ import java.util.Optional;
 import static be.kdv.takeaway.model.Status.REQUESTED;
 
 @Service
-@Slf4j
 public class OrderService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(Bootstrap.class);
-
-    private MealRepository mealRepository;
-    private OrderRepository orderRepository;
-    private MealStatsService mealStatsService;
+    private final MealRepository mealRepository;
+    private final OrderRepository orderRepository;
+    private final MealStatsService mealStatsService;
 
     public OrderService(
             MealRepository mealRepository,
@@ -65,7 +56,7 @@ public class OrderService {
 
         Order order = Order.builder()
                 .customerName(orderCommand.getCustomerName())
-                .meals(new ArrayList<Meal>())
+                .meals(new ArrayList<>())
                 .status(REQUESTED)
                 .createdAt(createdAt)
                 .readyAt(createdAt.plus(30, ChronoUnit.MINUTES))

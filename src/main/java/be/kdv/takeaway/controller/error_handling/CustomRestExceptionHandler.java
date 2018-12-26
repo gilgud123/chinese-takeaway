@@ -34,19 +34,19 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.BAD_REQUEST,
                 ex.getLocalizedMessage(),
                 "Error occured");
-        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> notFoundException(final EntityNotFoundException ex){
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
-        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
     @ExceptionHandler(InputNotValidException.class)
     public ResponseEntity<Object> inputNotValidException(final EntityNotFoundException ex){
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
-        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
     @Override
@@ -56,7 +56,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpStatus status,
             final WebRequest request
     ) {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             errors.add(error.getField() + ": " + error.getDefaultMessage());
         }
@@ -79,7 +79,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
 
-        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
     /** Replaces a standard 404 response */
@@ -89,6 +89,6 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         String error = "No handler found for " + ex.getHttpMethod() + " " + ex.getRequestURL();
 
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), error);
-        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 }

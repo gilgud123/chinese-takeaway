@@ -12,14 +12,13 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 @Component
-public class Bootstrap implements CommandLineRunner {
+public class SeedMongoDb implements CommandLineRunner {
     // TODO rename this class. Make sure the name tells other developers what it stands for.
 
-    private final Logger LOGGER = LoggerFactory.getLogger(Bootstrap.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
     // TODO make LOGGER static. Standard Java naming convention is not followed here
 
     private final MealRepository mealRepository;
@@ -27,7 +26,7 @@ public class Bootstrap implements CommandLineRunner {
     private final UserRepository userRepository;
     private final MongoTemplate mongoTemplate;
 
-    public Bootstrap(
+    public SeedMongoDb(
             MealRepository mealRepository,
             OrderRepository orderRepository,
             UserRepository userRepository,
@@ -40,7 +39,7 @@ public class Bootstrap implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         // TODO remove the Exception that is never thrown
 
         if ((mealRepository.findAll().isEmpty() || orderRepository.findAll().isEmpty())) {
@@ -63,7 +62,7 @@ public class Bootstrap implements CommandLineRunner {
                              .menuNumber(2)
                              .name("medium")
                              .description("Peking duck")
-                             .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.GLUTEN, Allergy.NUTS)))
+                             .allergies(Arrays.asList(Allergy.GLUTEN, Allergy.NUTS))
                              .build();
             // TODO remove type argument
 
@@ -71,7 +70,7 @@ public class Bootstrap implements CommandLineRunner {
                              .menuNumber(2)
                              .name("Lux")
                              .description("Chef's speciality")
-                             .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.GLUTEN, Allergy.SHELLFISH)))
+                             .allergies(Arrays.asList(Allergy.GLUTEN, Allergy.SHELLFISH))
                              .build();
             // TODO remove type argument
 
@@ -84,7 +83,7 @@ public class Bootstrap implements CommandLineRunner {
             //creating dummy orders
             Order order1 = Order.builder()
                                 .customerName("Peter Pan")
-                                .meals(new ArrayList<Meal>(Arrays.asList(meal1, meal2)))
+                                .meals(Arrays.asList(meal1, meal2))
                                 .status(Status.REQUESTED)
                                 .createdAt(Instant.now())
                                 .readyAt(Instant.now()
@@ -92,7 +91,7 @@ public class Bootstrap implements CommandLineRunner {
                                 .build();
             Order order2 = Order.builder()
                                 .customerName("Caption Hook")
-                                .meals(new ArrayList<Meal>(Arrays.asList(meal2, meal3)))
+                                .meals(Arrays.asList(meal2, meal3))
                                 .status(Status.PREPARING)
                                 .createdAt(Instant.now())
                                 .readyAt(Instant.now()
@@ -100,7 +99,7 @@ public class Bootstrap implements CommandLineRunner {
                                 .build();
             Order order3 = Order.builder()
                                 .customerName("Wendy")
-                                .meals(new ArrayList<Meal>(Arrays.asList(meal3)))
+                                .meals(Arrays.asList(meal3, meal1))
                                 .status(Status.REQUESTED)
                                 .createdAt(Instant.now())
                                 .readyAt(Instant.now()
