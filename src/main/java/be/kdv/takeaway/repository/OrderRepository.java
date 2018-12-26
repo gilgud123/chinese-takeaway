@@ -17,4 +17,16 @@ public interface OrderRepository extends MongoRepository<Order, String> {
 
     @RestResource(path = "name")
     public Optional<List<Order>> findByCustomerName(@Param("name") String customerName);
+
+    @RestResource(path = "similar")
+    public Optional<List<Order>> findByCustomerNameLike(@Param("name") String customerName);
+
+    // both delete overloaded methods are not exposed to the end user
+    @Override
+    @RestResource(exported = false)
+    void delete(Order order);
+
+    @Override
+    @RestResource(exported = false)
+    void deleteById(String orderId);
 }

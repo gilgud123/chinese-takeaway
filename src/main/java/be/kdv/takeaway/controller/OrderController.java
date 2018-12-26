@@ -57,7 +57,6 @@ public class OrderController {
         }catch (Exception e){
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @PatchMapping("/orders/{id}/{status}")
@@ -72,6 +71,5 @@ public class OrderController {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
     }
-
 }
 
