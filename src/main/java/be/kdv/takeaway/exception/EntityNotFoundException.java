@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public class EntityNotFoundException extends RuntimeException {
     private String entityId;
+    private int mealNum;
     private Class entityClass;
     private String message;
 
@@ -12,6 +13,12 @@ public class EntityNotFoundException extends RuntimeException {
         this.entityId = entityId;
         this.entityClass = entityClass;
         this.message = "Entity of type " + entityClass.getSimpleName() + " with the id " + entityId + " not found.";
+    }
+
+    public EntityNotFoundException(final int mealNum, final Class entityClass) {
+        this.mealNum = mealNum;
+        this.entityClass = entityClass;
+        this.message = "Entity of type " + entityClass.getSimpleName() + " with the number " + mealNum + " not found.";
     }
 
     public EntityNotFoundException(final Class entityClass){

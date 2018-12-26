@@ -35,7 +35,7 @@ public class OrderController {
 
     @GetMapping(path = "/orders/cook")
     public @ResponseBody ResponseEntity<?> getAllOrderNotDone() {
-       Order firstRequestedOrder = orderService.firdFirstRequestedOrder();
+       Order firstRequestedOrder = orderService.findFirstRequestedOrder();
        orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
        List<Order> sortedOrders = orderService.getAllOrdersNotDone();
        Resources<Order> resources = new Resources<>(sortedOrders);
@@ -52,16 +52,12 @@ public class OrderController {
     }
 
     @PatchMapping("/orders/{id}/{status}")
-    public ResponseEntity<?> changeOrderStatus(@PathVariable @Valid String id, @PathVariable @Valid String status) {
-//        try {
-            orderService.changeStatus(
-                    orderService.getById(id),
-                    Status.valueOf(status.toUpperCase())
+    public @ResponseBody ResponseEntity<?> changeOrderStatus(@PathVariable @Valid String id, @PathVariable @Valid String status) {
+        Order changedOrder = orderService.changeStatus(
+                orderService.getById(id),
+                Status.valueOf(status.toUpperCase())
             );
-            return new ResponseEntity<>(HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-//        }
+        return ResponseEntity.ok(changedOrder);
     }
 }
 

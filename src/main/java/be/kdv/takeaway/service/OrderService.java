@@ -36,7 +36,7 @@ public class OrderService {
     }
 
     public Order getById(String id){
-        return orderRepository.findById(id).orElseThrow(InputNotValidException::new);
+        return orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Order.class));
     }
 
     public List<Order> getAllOrdersNotDone(){
@@ -44,13 +44,13 @@ public class OrderService {
         return optionalOrders.orElseThrow(() -> new EntityNotFoundException(Order.class));
     }
 
-    public Order firdFirstRequestedOrder(){
+    public Order findFirstRequestedOrder(){
         return orderRepository.findByStatusInOrderByCreatedAtAsc(Status.REQUESTED).orElseThrow(() -> new EntityNotFoundException(Order.class)).get(0);
     }
 
     public Order takeOrder(OrderCommand orderCommand){
 
-        if(orderCommand == null){ throw new InputNotValidException(); }
+        if(orderCommand == null){ throw new InputNotValidException(OrderCommand.class); }
 
         Instant createdAt = Instant.now();
 
@@ -71,10 +71,11 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public void changeStatus(Order order, Status status){
-        if(order == null || status == null){ throw new InputNotValidException(); }
+    public Order changeStatus(Order order, Status status){
+        if(order == null){ throw new EntityNotFoundException(Order.class); }
+        if(status == null){ throw new InputNotValidException(Status.class); }
         order.setStatus(status);
-        orderRepository.save(order);
+        return orderRepository.save(order);
     }
 
 }

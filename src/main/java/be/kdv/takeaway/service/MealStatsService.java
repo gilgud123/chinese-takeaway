@@ -27,7 +27,7 @@ public class MealStatsService {
         return stats;
     }
 
-    public void addStats(int mealnumber){
+    void addStats(int mealnumber){
         MealStats stats;
         if(mealStatsRepository.findAll().isEmpty()){
             LOGGER.info("The repo is empty");
