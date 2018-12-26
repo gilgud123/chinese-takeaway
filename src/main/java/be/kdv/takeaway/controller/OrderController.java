@@ -35,7 +35,7 @@ public class OrderController {
 
     @GetMapping(path = "/orders/cook")
     public @ResponseBody
-    ResponseEntity<?> getAllOrderNotDone() {
+    ResponseEntity getAllOrderNotDone() {
         try {
             Order firstRequestedOrder = orderService.firdFirstRequestedOrder();
             orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
