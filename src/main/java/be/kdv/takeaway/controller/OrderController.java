@@ -34,12 +34,13 @@ public class OrderController {
     }
 
     @GetMapping(path = "/orders/cook")
-    public @ResponseBody ResponseEntity<?> getAllOrderNotDone() {
+    public @ResponseBody
+    ResponseEntity<?> getAllOrderNotDone() {
         try {
             Order firstRequestedOrder = orderService.firdFirstRequestedOrder();
             orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
             List<Order> sortedOrders = orderService.getAllOrdersNotDone();
-            Resources<Order> resources = new Resources<Order>(sortedOrders);
+            Resources<Order> resources = new Resources<>(sortedOrders);
             resources.add(linkTo(methodOn(OrderController.class).getAllOrderNotDone()).withSelfRel());
             return ResponseEntity.ok(resources);
         } catch (Exception e) {
@@ -48,28 +49,29 @@ public class OrderController {
     }
 
     @PostMapping(path = "/orders", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<?> takeOrder(@RequestBody @Validated OrderCommand orderCommand){
-        try{
+    public @ResponseBody
+    ResponseEntity<?> takeOrder(@RequestBody @Validated OrderCommand orderCommand) {
+        try {
             Order order = orderService.takeOrder(orderCommand);
-            Resource<Order> resource = new Resource<Order>(order);
+            Resource<Order> resource = new Resource<>(order);
             resource.add(linkTo(methodOn(OrderController.class).takeOrder(orderCommand)).withSelfRel());
             return ResponseEntity.ok(resource);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
     }
 
     @PatchMapping("/orders/{id}/{status}")
-    public ResponseEntity<?> changeOrderStatus(@PathVariable @Valid String id, @PathVariable @Valid String status){
-        try {
+    public ResponseEntity<?> changeOrderStatus(@PathVariable @Valid String id, @PathVariable @Valid String status) {
+//        try {
             orderService.changeStatus(
                     orderService.getById(id),
                     Status.valueOf(status.toUpperCase())
             );
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-        }
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+//        }
     }
 }
 

@@ -2,6 +2,7 @@ package be.kdv.takeaway.controller.error_handling;
 
 import be.kdv.takeaway.exception.BadRequestException;
 import be.kdv.takeaway.exception.EntityNotFoundException;
+import be.kdv.takeaway.exception.InputNotValidException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -38,6 +39,12 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> notFoundException(final EntityNotFoundException ex){
+        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    @ExceptionHandler(InputNotValidException.class)
+    public ResponseEntity<Object> inputNotValidException(final EntityNotFoundException ex){
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
     }

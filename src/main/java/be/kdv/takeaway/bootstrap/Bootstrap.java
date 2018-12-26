@@ -55,7 +55,7 @@ public class Bootstrap implements CommandLineRunner {
                              .menuNumber(1)
                              .name("basic")
                              .description("Basic set")
-                             .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.NUTS, Allergy.LACTOSE)))
+                             .allergies(Arrays.asList(Allergy.NUTS, Allergy.LACTOSE))
                              .build();
             // TODO remove type argument
 
