@@ -49,12 +49,12 @@ public class OrderService {
     }
 
     public List<Order> getAllOrdersNotDone(){
-        Optional<List<Order>> optionalOrders = orderRepository.findByStatusInOrderByCreatedAtAsc(Status.PREPARING, REQUESTED);
+        Optional<List<Order>> optionalOrders = orderRepository.findByStatusInOrderByCreatedAtAsc(Status.PREPARING, Status.REQUESTED);
         return optionalOrders.orElseThrow(() -> new EntityNotFoundException(Order.class));
     }
 
     public Order firdFirstRequestedOrder(){
-        return orderRepository.findByStatusInOrderByCreatedAtAsc(REQUESTED).orElseThrow(() -> new EntityNotFoundException(Order.class)).get(0);
+        return orderRepository.findByStatusInOrderByCreatedAtAsc(Status.REQUESTED).orElseThrow(() -> new EntityNotFoundException(Order.class)).get(0);
     }
 
     public Order takeOrder(OrderCommand orderCommand){

@@ -36,10 +36,9 @@ public class OrderController {
     @GetMapping(path = "/orders/cook")
     public @ResponseBody ResponseEntity<?> getAllOrderNotDone() {
         try {
-            List<Order> sortedOrders = orderService.getAllOrdersNotDone();
             Order firstRequestedOrder = orderService.firdFirstRequestedOrder();
             orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
-            sortedOrders = orderService.getAllOrdersNotDone();
+            List<Order> sortedOrders = orderService.getAllOrdersNotDone();
             Resources<Order> resources = new Resources<Order>(sortedOrders);
             resources.add(linkTo(methodOn(OrderController.class).getAllOrderNotDone()).withSelfRel());
             return ResponseEntity.ok(resources);
