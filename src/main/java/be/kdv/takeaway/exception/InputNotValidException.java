@@ -1,5 +1,16 @@
 package be.kdv.takeaway.exception;
 
 public class InputNotValidException extends RuntimeException {
-    public InputNotValidException(){ super("Input not valid"); }
+
+    private String message;
+
+    public InputNotValidException(String message){
+
+        this.message = message;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
 }

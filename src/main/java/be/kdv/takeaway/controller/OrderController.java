@@ -34,31 +34,21 @@ public class OrderController {
     }
 
     @GetMapping(path = "/orders/cook")
-    public @ResponseBody
-    ResponseEntity getAllOrderNotDone() {
-        try {
-            Order firstRequestedOrder = orderService.firdFirstRequestedOrder();
-            orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
-            List<Order> sortedOrders = orderService.getAllOrdersNotDone();
-            Resources<Order> resources = new Resources<>(sortedOrders);
-            resources.add(linkTo(methodOn(OrderController.class).getAllOrderNotDone()).withSelfRel());
-            return ResponseEntity.ok(resources);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-        }
+    public @ResponseBody ResponseEntity<?> getAllOrderNotDone() {
+       Order firstRequestedOrder = orderService.firdFirstRequestedOrder();
+       orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
+       List<Order> sortedOrders = orderService.getAllOrdersNotDone();
+       Resources<Order> resources = new Resources<>(sortedOrders);
+       resources.add(linkTo(methodOn(OrderController.class).getAllOrderNotDone()).withSelfRel());
+       return ResponseEntity.ok(resources);
     }
 
     @PostMapping(path = "/orders", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    ResponseEntity<?> takeOrder(@RequestBody @Validated OrderCommand orderCommand) {
-        try {
-            Order order = orderService.takeOrder(orderCommand);
-            Resource<Order> resource = new Resource<>(order);
-            resource.add(linkTo(methodOn(OrderController.class).takeOrder(orderCommand)).withSelfRel());
-            return ResponseEntity.ok(resource);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-        }
+    public @ResponseBody ResponseEntity<?> takeOrder(@RequestBody @Validated OrderCommand orderCommand) {
+        Order order = orderService.takeOrder(orderCommand);
+        Resource<Order> resource = new Resource<>(order);
+        resource.add(linkTo(methodOn(OrderController.class).takeOrder(orderCommand)).withSelfRel());
+        return ResponseEntity.ok(resource);
     }
 
     @PatchMapping("/orders/{id}/{status}")
