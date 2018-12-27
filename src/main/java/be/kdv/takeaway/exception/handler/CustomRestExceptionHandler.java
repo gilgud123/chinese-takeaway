@@ -6,13 +6,13 @@ import be.kdv.takeaway.exception.InputNotValidException;
 import be.kdv.takeaway.helper.ApiError;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -25,24 +25,24 @@ import java.util.Objects;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
-@RestController
+@RepositoryRestController
 public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     // general error handler
-    @ExceptionHandler(BadRequestException.class)
+  @ExceptionHandler({BadRequestException.class})
     public ResponseEntity<Object> handleBadRequests(BadRequestException ex) {
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), Collections.singletonList("Error occured"));
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Object> notFoundException(final EntityNotFoundException ex) {
-        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
-        return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
+    @ExceptionHandler({EntityNotFoundException.class})
+    public ResponseEntity<Object> notFoundException(final EntityNotFoundException ex, WebRequest request) {
+        ApiError apiError = new ApiError(ex.getLocalizedMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(InputNotValidException.class)
-    public ResponseEntity<Object> inputNotValidException(final EntityNotFoundException ex) {
+    @ExceptionHandler({InputNotValidException.class})
+    public ResponseEntity<Object> inputNotValidException(final InputNotValidException ex) {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
@@ -75,8 +75,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(
-            MethodArgumentTypeMismatchException ex,
-            WebRequest request) {
+            MethodArgumentTypeMismatchException ex) {
         String error = ex.getName() + " should be of type " + Objects.requireNonNull(ex.getRequiredType()).getName();
 
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), Collections.singletonList(error));

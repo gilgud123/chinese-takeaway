@@ -45,7 +45,7 @@ public class OrderService {
     }
 
     public Order findFirstRequestedOrder(){
-        return orderRepository.findByStatusInOrderByCreatedAtAsc(Status.REQUESTED).orElseThrow(() -> new EntityNotFoundException(Order.class)).get(0);
+        return orderRepository.findByStatusInOrderByCreatedAtAsc(Status.DONE).orElseThrow(() -> new EntityNotFoundException(Order.class)).get(0);
     }
 
     public Order takeOrder(OrderCommand orderCommand){

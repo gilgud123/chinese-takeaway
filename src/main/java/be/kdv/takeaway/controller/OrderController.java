@@ -34,13 +34,13 @@ public class OrderController {
     }
 
     @GetMapping(path = "/orders/cook")
-    public @ResponseBody ResponseEntity<?> getAllOrderNotDone() {
-       Order firstRequestedOrder = orderService.findFirstRequestedOrder();
-       orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
-       List<Order> sortedOrders = orderService.getAllOrdersNotDone();
-       Resources<Order> resources = new Resources<>(sortedOrders);
-       resources.add(linkTo(methodOn(OrderController.class).getAllOrderNotDone()).withSelfRel());
-       return ResponseEntity.ok(resources);
+    public @ResponseBody ResponseEntity<Resources<Order>> getAllOrderNotDone() {
+        Order firstRequestedOrder = orderService.findFirstRequestedOrder();
+        orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
+        List<Order> sortedOrders = orderService.getAllOrdersNotDone();
+        Resources<Order> resources = new Resources<>(sortedOrders);
+        resources.add(linkTo(methodOn(OrderController.class).getAllOrderNotDone()).withSelfRel());
+        return ResponseEntity.ok(resources);
     }
 
     @PostMapping(path = "/orders", consumes = MediaType.APPLICATION_JSON_VALUE)

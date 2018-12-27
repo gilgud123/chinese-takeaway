@@ -1,6 +1,6 @@
 package be.kdv.takeaway.model;
 
-import be.kdv.takeaway.exception.AllergyNotFoundException;
+import be.kdv.takeaway.exception.EntityNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -27,6 +27,6 @@ public enum Allergy {
 
    @JsonCreator
     public static Allergy fromString(String allergy){
-        return Arrays.stream(Allergy.values()).filter(e -> e.getAllergy().equals(allergy)).findFirst().orElseThrow(AllergyNotFoundException::new);
+        return Arrays.stream(Allergy.values()).filter(e -> e.getAllergy().equals(allergy)).findFirst().orElseThrow(() -> new EntityNotFoundException(Allergy.class));
     }
 }
