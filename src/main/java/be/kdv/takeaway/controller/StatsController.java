@@ -24,7 +24,7 @@ public class StatsController {
 
         MealStats stats = mealStatsService.showStats();
 
-        Resource<MealStats> resource = new Resource<MealStats>(stats);
+        Resource<MealStats> resource = new Resource<>(stats);
 
         resource.add(linkTo(methodOn(StatsController.class).showStats()).withSelfRel());
 

@@ -29,11 +29,11 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     private static final String SCOPE_READ = "read";
     private static final String SCOPE_WRITE = "write";
     private static final String TRUST = "trust";
-    private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1*60*60;
+    private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 60*60;
     private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60;
 
     @Qualifier("authenticationManagerBean")
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
     public AuthorizationServer(AuthenticationManager authenticationManager) {
@@ -56,7 +56,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints){
         endpoints
                     .tokenStore(tokenStore())
                     .authenticationManager(authenticationManager)

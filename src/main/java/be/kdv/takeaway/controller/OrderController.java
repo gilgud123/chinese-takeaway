@@ -1,6 +1,7 @@
 package be.kdv.takeaway.controller;
 
 import be.kdv.takeaway.command.OrderCommand;
+import be.kdv.takeaway.exception.EntityNotFoundException;
 import be.kdv.takeaway.model.Order;
 import be.kdv.takeaway.model.Status;
 import be.kdv.takeaway.service.OrderService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -33,45 +35,35 @@ public class OrderController {
     }
 
     @GetMapping(path = "/orders/cook")
-    public @ResponseBody ResponseEntity<?> getAllOrderNotDone() {
-        try {
-            List<Order> sortedOrders = orderService.getAllOrdersNotDone();
-            Order firstRequestedOrder = orderService.firdFirstRequestedOrder();
-            orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
-            sortedOrders = orderService.getAllOrdersNotDone();
-            Resources<Order> resources = new Resources<Order>(sortedOrders);
-            resources.add(linkTo(methodOn(OrderController.class).getAllOrderNotDone()).withSelfRel());
-            return ResponseEntity.ok(resources);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+    public @ResponseBody ResponseEntity<Resources<Order>> getAllOrderNotDone() {
+        Order firstRequestedOrder;
+        if(orderService.findFirstRequestedOrder() == null) {
+            throw new EntityNotFoundException(Order.class);
+        } else {
+            firstRequestedOrder = orderService.findFirstRequestedOrder();
         }
+        orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
+        List<Order> sortedOrders = orderService.getAllOrdersNotDone();
+        Resources<Order> resources = new Resources<>(sortedOrders);
+        resources.add(linkTo(methodOn(OrderController.class).getAllOrderNotDone()).withSelfRel());
+        return ResponseEntity.ok(resources);
     }
 
     @PostMapping(path = "/orders", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<?> takeOrder(@RequestBody @Validated OrderCommand orderCommand){
-        try{
-            Order order = orderService.takeOrder(orderCommand);
-            Resource<Order> resource = new Resource<Order>(order);
-            resource.add(linkTo(methodOn(OrderController.class).takeOrder(orderCommand)).withSelfRel());
-            return ResponseEntity.ok(resource);
-        }catch (Exception e){
-            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-        }
-
+    public @ResponseBody ResponseEntity<?> takeOrder(@RequestBody @Validated OrderCommand orderCommand) {
+        Order order = orderService.takeOrder(orderCommand);
+        Resource<Order> resource = new Resource<>(order);
+        resource.add(linkTo(methodOn(OrderController.class).takeOrder(orderCommand)).withSelfRel());
+        return ResponseEntity.ok(resource);
     }
 
     @PatchMapping("/orders/{id}/{status}")
-    public ResponseEntity<?> changeOrderStatus(@PathVariable String id, @PathVariable String status){
-        try {
-            orderService.changeStatus(
-                    orderService.getById(id),
-                    Status.valueOf(status.toUpperCase())
+    public @ResponseBody ResponseEntity<?> changeOrderStatus(@PathVariable @Valid String id, @PathVariable @Valid String status) {
+        Order changedOrder = orderService.changeStatus(
+                orderService.getById(id),
+                Status.valueOf(status.toUpperCase())
             );
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-        }
+        return ResponseEntity.ok(changedOrder);
     }
-
 }
 
