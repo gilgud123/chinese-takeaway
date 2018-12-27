@@ -1,6 +1,7 @@
 package be.kdv.takeaway.controller;
 
 import be.kdv.takeaway.command.OrderCommand;
+import be.kdv.takeaway.exception.EntityNotFoundException;
 import be.kdv.takeaway.model.Order;
 import be.kdv.takeaway.model.Status;
 import be.kdv.takeaway.service.OrderService;
@@ -35,7 +36,12 @@ public class OrderController {
 
     @GetMapping(path = "/orders/cook")
     public @ResponseBody ResponseEntity<Resources<Order>> getAllOrderNotDone() {
-        Order firstRequestedOrder = orderService.findFirstRequestedOrder();
+        Order firstRequestedOrder;
+        if(orderService.findFirstRequestedOrder() == null) {
+            throw new EntityNotFoundException(Order.class);
+        } else {
+            firstRequestedOrder = orderService.findFirstRequestedOrder();
+        }
         orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
         List<Order> sortedOrders = orderService.getAllOrdersNotDone();
         Resources<Order> resources = new Resources<>(sortedOrders);
