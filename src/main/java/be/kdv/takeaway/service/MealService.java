@@ -1,29 +1,26 @@
 package be.kdv.takeaway.service;
 
-import be.kdv.takeaway.bootstrap.Bootstrap;
+import be.kdv.takeaway.bootstrap.SeedMongoDb;
 import be.kdv.takeaway.exception.InputNotValidException;
-import be.kdv.takeaway.exception.MealNotFoundException;
 import be.kdv.takeaway.model.Allergy;
 import be.kdv.takeaway.model.Meal;
 import be.kdv.takeaway.repository.MealRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j
 public class MealService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(Bootstrap.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
 
     private final MealRepository mealRepository;
 
@@ -54,6 +51,13 @@ public class MealService {
         }
         LOGGER.info("{}", allergenicMeals.toString());
         return getAllMeals().stream().filter(meal -> !allergenicMeals.contains(meal)).collect(Collectors.toList());
+    }
+
+    public List<Meal> getByMealName(String mealName){
+        Example<Meal> mealExample = Example.of(Meal.builder().name(mealName).build());
+        List<Meal> meals = mealRepository.findAll(mealExample);
+        LOGGER.info("Meals with the name {} : {}", mealName, meals);
+        return meals;
     }
 
 }

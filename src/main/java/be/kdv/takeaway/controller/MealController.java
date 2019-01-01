@@ -1,7 +1,6 @@
 package be.kdv.takeaway.controller;
 
-import be.kdv.takeaway.bootstrap.Bootstrap;
-import be.kdv.takeaway.model.Allergy;
+import be.kdv.takeaway.bootstrap.SeedMongoDb;
 import be.kdv.takeaway.model.Meal;
 import be.kdv.takeaway.service.MealService;
 import org.slf4j.Logger;
@@ -9,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/meals")
 public class MealController {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(Bootstrap.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
 
     private final MealService mealService;
 
@@ -50,6 +50,16 @@ public class MealController {
     @GetMapping("/stats")
     public List<Meal> showStats(){
         return null;
+    }
+
+    @GetMapping("/{mealName}")
+    public ResponseEntity<?> getMealByName(@PathVariable String mealName){
+        try{
+            return new ResponseEntity<>(mealService.getByMealName(mealName), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 }

@@ -18,15 +18,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @Component
-public class Bootstrap implements CommandLineRunner {
+public class SeedMongoDb implements CommandLineRunner {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(Bootstrap.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
 
     private final MealRepository mealRepository;
     private final OrderRepository orderRepository;
     private final MongoTemplate mongoTemplate;
 
-    public Bootstrap(
+    public SeedMongoDb(
             MealRepository mealRepository,
             OrderRepository orderRepository,
             MongoTemplate mongoTemplate) {

@@ -2,15 +2,9 @@ package be.kdv.takeaway.model;
 
 import be.kdv.takeaway.exception.AllergyNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
-
-import static org.springframework.data.util.Pair.toMap;
 
 public enum Allergy {
 

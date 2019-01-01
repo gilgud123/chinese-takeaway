@@ -1,6 +1,6 @@
 package be.kdv.takeaway.service;
 
-import be.kdv.takeaway.bootstrap.Bootstrap;
+import be.kdv.takeaway.bootstrap.SeedMongoDb;
 import be.kdv.takeaway.command.OrderCommand;
 import be.kdv.takeaway.exception.InputNotValidException;
 import be.kdv.takeaway.exception.MealNotFoundException;
@@ -25,7 +25,7 @@ import static be.kdv.takeaway.model.Status.REQUESTED;
 @Service
 public class OrderService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(Bootstrap.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
 
     private MealRepository mealRepository;
     private OrderRepository orderRepository;
