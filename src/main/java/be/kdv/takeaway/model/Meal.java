@@ -8,8 +8,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +25,9 @@ public class Meal {
     @Id
     private String id;
 
-    @NotNull
     private int menuNumber;
 
-    @NotNull
+    @Field("name")
     private String name;
 
     private String description;

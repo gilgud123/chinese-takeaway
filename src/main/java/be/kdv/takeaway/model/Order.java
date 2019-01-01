@@ -25,10 +25,8 @@ public class Order {
     @Id
     private String id;
 
-    @NotNull
     private String customerName;
 
-    @NotNull
     private List<Meal> meals;
 
     private Status status;

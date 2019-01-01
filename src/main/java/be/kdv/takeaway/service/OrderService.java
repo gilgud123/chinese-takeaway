@@ -12,6 +12,7 @@ import be.kdv.takeaway.repository.MealRepository;
 import be.kdv.takeaway.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -25,7 +26,7 @@ import static be.kdv.takeaway.model.Status.REQUESTED;
 @Service
 public class OrderService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
 
     private MealRepository mealRepository;
     private OrderRepository orderRepository;
@@ -73,9 +74,12 @@ public class OrderService {
                 .build();
 
         orderCommand.getMeals().forEach(mealnr -> {
-            Meal meal = mealRepository.getByMenuNumber(mealnr).orElseThrow(MealNotFoundException::new);
+            Meal meal = Meal.builder().menuNumber(mealnr).build();
+            Example<Meal> example = Example.of(meal);
+            meal = mealRepository.findOne(example).orElseThrow(MealNotFoundException::new);
             order.getMeals().add(meal);
-            mealStatsService.addStats(mealnr);
+            LOGGER.info("Meal name is {}", meal.getName());
+            mealStatsService.addStats(meal.getMenuNumber());
                 });
 
         return orderRepository.save(order);

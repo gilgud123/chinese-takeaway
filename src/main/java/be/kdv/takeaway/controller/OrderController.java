@@ -48,7 +48,7 @@ public class OrderController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/order")
     public ResponseEntity<?> takeOrder(@RequestBody @Validated OrderCommand orderCommand){
         try{
             return new ResponseEntity<>(orderService.takeOrder(orderCommand), HttpStatus.OK);

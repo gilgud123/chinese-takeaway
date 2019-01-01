@@ -37,6 +37,16 @@ public class MealController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getMealById(@PathVariable String id){
+        try {
+            return new ResponseEntity<>(mealService.getMealById(id), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
     @PostMapping("/allergies")
     public ResponseEntity<?> getAllergyFreeMeals(@RequestBody String... allergies) {
         try {
@@ -52,7 +62,7 @@ public class MealController {
         return null;
     }
 
-    @GetMapping("/{mealName}")
+    @GetMapping("/query/{mealName}")
     public ResponseEntity<?> getMealByName(@PathVariable String mealName){
         try{
             return new ResponseEntity<>(mealService.getByMealName(mealName), HttpStatus.OK);

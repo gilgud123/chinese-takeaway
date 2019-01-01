@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface MealRepository extends MongoRepository<Meal, String>, QueryByExampleExecutor<Meal> {
 
-    Optional<Meal> getByMenuNumber(int menuNumber);
+    //Optional<Meal> getByMenuNumber(int menuNumber);
 }
