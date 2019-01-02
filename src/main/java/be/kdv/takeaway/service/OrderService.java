@@ -102,12 +102,10 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public void changeStatus(Order order, Status status) {
-        if (order == null || status == null) {
-            throw new InputNotValidException();
-        }
+    public Order changeStatus(String id, Status status) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
         order.setStatus(status);
-        orderRepository.save(order);
+        return orderRepository.save(order);
     }
 
     public Order findByCustormerName(String name) {

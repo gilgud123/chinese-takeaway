@@ -26,7 +26,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllOrders(){
+    public ResponseEntity getAllOrders(){
         try{
             return new ResponseEntity<>(orderService.getAll(), HttpStatus.OK);
         }catch (Exception e){
@@ -43,7 +43,8 @@ public class OrderController {
     // TODO: remove the diamond sign as it is not needed
     public ResponseEntity<?> getAllOrderNotDone() {
         try {
-            orderService.changeStatus(orderService.firstFirstRequestedOrder(), Status.PREPARING);
+            String id = orderService.firstFirstRequestedOrder().getId();
+            orderService.changeStatus(id, Status.PREPARING);
             return new ResponseEntity<>(orderService.getAllOrdersNotDone(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
@@ -51,9 +52,9 @@ public class OrderController {
     }
 
     // TODO: no correct implementation of REST. To create an resource of type order, a POST to /orders is enough
-    @PostMapping("/order")
+    @PostMapping
     // TODO: remove the diamond sign as it is not needed
-    public ResponseEntity<?> takeOrder(@RequestBody @Validated OrderCommand orderCommand){
+    public ResponseEntity takeOrder(@RequestBody @Validated OrderCommand orderCommand){
         try{
             return new ResponseEntity<>(orderService.takeOrder(orderCommand), HttpStatus.OK);
         }catch (Exception e){
@@ -78,10 +79,8 @@ public class OrderController {
     public ResponseEntity<?> changeOrderStatus(@PathVariable String id, @PathVariable String status){
         try{
             // TODO: the logic to obtain the Order should be inside the changeStatus method
-            orderService.changeStatus(orderService.getById(id),
-                    Status.valueOf(status.toUpperCase())
-            );
-            return new ResponseEntity<>(HttpStatus.OK);
+            Order order = orderService.changeStatus(id, Status.valueOf(status.toUpperCase()));
+            return new ResponseEntity<>(order, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }

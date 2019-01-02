@@ -6,7 +6,6 @@ import be.kdv.takeaway.exception.MealNotFoundException;
 import be.kdv.takeaway.model.Allergy;
 import be.kdv.takeaway.model.Meal;
 import be.kdv.takeaway.repository.MealRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
@@ -19,10 +18,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class MealService {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
 
     private final MealRepository mealRepository;
 

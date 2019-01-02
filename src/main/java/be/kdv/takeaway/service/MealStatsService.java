@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 public class MealStatsService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(MealStats.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MealStats.class);
 
     private final MealStatsRepository mealStatsRepository;
     private final MealRepository mealRepository;
@@ -31,7 +31,7 @@ public class MealStatsService {
         return stats;
     }
 
-    public void addStats(int mealnumber){
+    void addStats(int mealnumber){
         MealStats stats;
         if(mealStatsRepository.findAll().isEmpty()){
             LOGGER.info("The repo is empty");
