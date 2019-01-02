@@ -1,10 +1,7 @@
 package be.kdv.takeaway.controller;
 
-import be.kdv.takeaway.bootstrap.SeedMongoDb;
 import be.kdv.takeaway.model.Meal;
 import be.kdv.takeaway.service.MealService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +17,7 @@ import java.util.List;
 @RequestMapping("/meals")
 public class MealController {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
+    //private final Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
 
     private final MealService mealService;
 

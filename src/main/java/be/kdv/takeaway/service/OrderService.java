@@ -28,9 +28,9 @@ public class OrderService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
 
-    private MealRepository mealRepository;
-    private OrderRepository orderRepository;
-    private MealStatsService mealStatsService;
+    private final MealRepository mealRepository;
+    private final OrderRepository orderRepository;
+    private final MealStatsService mealStatsService;
 
     public OrderService(
             MealRepository mealRepository,
@@ -67,7 +67,7 @@ public class OrderService {
 
         Order order = Order.builder()
                 .customerName(orderCommand.getCustomerName())
-                .meals(new ArrayList<Meal>())
+                .meals(new ArrayList<>())
                 .status(REQUESTED)
                 .createdAt(createdAt)
                 .readyAt(createdAt.plus(30, ChronoUnit.MINUTES))

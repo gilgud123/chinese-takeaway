@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -39,9 +37,7 @@ public class OrderController {
     @GetMapping("/cook")
     public ResponseEntity<?> getAllOrderNotDone() {
         try {
-            List<Order> sortedOrder = orderService.getAllOrdersNotDone();
-            Order firstRequestedOrder = orderService.firdFirstRequestedOrder();
-            orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
+            orderService.changeStatus(orderService.firdFirstRequestedOrder(), Status.PREPARING);
             return new ResponseEntity<>(orderService.getAllOrdersNotDone(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);

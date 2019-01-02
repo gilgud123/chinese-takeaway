@@ -37,7 +37,7 @@ public class SeedMongoDb implements CommandLineRunner {
 
     //twee command runners aanmaken
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args)  {
 
         if ((mealRepository.findAll().isEmpty() || orderRepository.findAll().isEmpty())) {
 
@@ -50,20 +50,20 @@ public class SeedMongoDb implements CommandLineRunner {
                             .menuNumber(1)
                             .name("basic")
                             .description("Basic set")
-                            .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.NUTS, Allergy.LACTOSE)))
+                            .allergies(new ArrayList<>(Arrays.asList(Allergy.NUTS, Allergy.LACTOSE)))
                             .build();
                     Meal meal2 = Meal.builder()
                             .menuNumber(2)
                             .name("medium")
                             .description("Peking duck")
-                            .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.GLUTEN, Allergy.NUTS)))
+                            .allergies(new ArrayList<>(Arrays.asList(Allergy.GLUTEN, Allergy.NUTS)))
                             .build();
 
                     Meal meal3 = Meal.builder()
                             .menuNumber(2)
                             .name("Lux")
                             .description("Chef's speciality")
-                            .allergies(new ArrayList<Allergy>(Arrays.asList(Allergy.GLUTEN, Allergy.SHELLFISH)))
+                            .allergies(new ArrayList<>(Arrays.asList(Allergy.GLUTEN, Allergy.SHELLFISH)))
                             .build();
 
                     mealRepository.save(meal1);
@@ -72,14 +72,14 @@ public class SeedMongoDb implements CommandLineRunner {
 
                     Order order1 = Order.builder()
                                 .customerName("Peter Pan")
-                                .meals(new ArrayList<Meal>(Arrays.asList(meal1, meal2)))
+                                .meals(new ArrayList<>(Arrays.asList(meal1, meal2)))
                                 .status(Status.REQUESTED)
                                 .createdAt(Instant.now())
                                 .readyAt(Instant.now().plus(30, ChronoUnit.MINUTES))
                                 .build();
                     Order order2 = Order.builder()
                                 .customerName("Caption Hook")
-                                .meals(new ArrayList<Meal>(Arrays.asList(meal2, meal3)))
+                                .meals(new ArrayList<>(Arrays.asList(meal2, meal3)))
                                 .status(Status.PREPARING)
                                 .createdAt(Instant.now())
                                 .readyAt(Instant.now()
