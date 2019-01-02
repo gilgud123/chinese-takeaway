@@ -24,8 +24,6 @@ import java.util.Optional;
 
 import static be.kdv.takeaway.model.Status.REQUESTED;
 
-// TODO: format the class properly
-
 @Service
 public class OrderService {
 
@@ -50,28 +48,20 @@ public class OrderService {
     }
 
     public Order getById(String id) {
-        // TODO Very bad practice. When a resource is not found, throw an exception and a 404 response code
         return orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
     }
 
     public List<Order> getAllOrdersNotDone() {
         Optional<List<Order>> optionalOrders = orderRepository.findByStatusInOrderByCreatedAtAsc(Status.PREPARING, REQUESTED);
-        // TODO: nice usage of the lamda notation! Kudos!!
         return optionalOrders.orElseThrow(OrderNotFoundException::new);
     }
 
-    // TODO: correct the typo in the method name
-    public Order firstFirstRequestedOrder() {
+    public Order findFirstRequestedOrder() {
         return orderRepository.findByStatusInOrderByCreatedAtAsc(REQUESTED).orElseThrow(OrderNotFoundException::new).get(0);
     }
 
     public Order takeOrder(OrderCommand orderCommand) {
-        // TODO: Due to the validation at controller level, the orderCommand parameter can never be null
-
-        // TODO: Make the variable final
         final Instant createdAt = Instant.now();
-        List<Exception> exceptions = new ArrayList<>();
-
         Order order = Order.builder()
                 .customerName(orderCommand.getCustomerName())
                 .meals(new ArrayList<>())
@@ -80,15 +70,13 @@ public class OrderService {
                 .readyAt(createdAt.plus(30, ChronoUnit.MINUTES))
                 .build();
 
-        // TODO: use proper camelcase for mealnr
-        // TODO: what will happen when they enter 20 meals and only 1 is wrong? Wouldn't it be better if the other 19
-        // meals would be stored and only the incorrect one will be reported?
+        List<Exception> exceptions = new ArrayList<>();
+
         orderCommand.getMeals().forEach(mealNr -> {
             Meal meal = Meal.builder().menuNumber(mealNr).build();
             Example<Meal> example = Example.of(meal);
             if(mealRepository.findOne(example).isPresent()) {
                 meal = mealRepository.findOne(example).get();
-                // TODO: make a method that adds a meal to the order's meal list in the Order class itself
                 order.addMealToOrder(meal);
                 LOGGER.info("Meal name is {}", meal.getName());
                 mealStatsService.addStats(meal.getMenuNumber());
@@ -97,7 +85,7 @@ public class OrderService {
             }
         });
         if(!exceptions.isEmpty()) {
-            exceptions.forEach(e -> LOGGER.info("The following exception was thrown {}", e.getLocalizedMessage()));
+            exceptions.forEach(e -> LOGGER.info(e.getLocalizedMessage()));
         }
         return orderRepository.save(order);
     }

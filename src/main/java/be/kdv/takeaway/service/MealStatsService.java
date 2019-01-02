@@ -6,6 +6,7 @@ import be.kdv.takeaway.repository.MealRepository;
 import be.kdv.takeaway.repository.MealStatsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class MealStatsService {
             stats = mealStatsRepository.findAll().get(0);
             int mealStatValue = stats.getMealStatistics().getOrDefault(mealnumber, 0);
             LOGGER.info("value: {}", mealStatValue);
-            stats.getMealStatistics().put(mealnumber, ++mealStatValue);
+            stats.addStats(mealnumber, ++mealStatValue);
             mealStatsRepository.save(stats);
         }
         LOGGER.info("Meal stats are: {}", mealStatsRepository.findAll().toString());

@@ -54,6 +54,7 @@ public class MealController {
     }
 
     //TODO to be refactored and saved into a separate collection/document
+    //See development branch for the solution in Spring Data Rest
     @GetMapping("/stats")
     public List<Meal> showStats(){
         return null;

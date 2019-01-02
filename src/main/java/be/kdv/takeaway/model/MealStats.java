@@ -1,6 +1,7 @@
 package be.kdv.takeaway.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,5 +26,9 @@ public class MealStats {
     private String id;
 
     private Map<Integer, Integer> mealStatistics = new HashMap<>();
+
+    public void addStats(int mealNr, int value){
+        mealStatistics.put(mealNr, value);
+    }
 
 }

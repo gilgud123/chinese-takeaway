@@ -26,7 +26,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity getAllOrders() {
         try {
             return new ResponseEntity<>(orderService.getAll(), HttpStatus.OK);
@@ -35,26 +35,17 @@ public class OrderController {
         }
     }
 
+    // Get all orders that are to be prepared yet, sorted op date
     @GetMapping("/cook")
-    // TODO: not a proper way to use REST. A GetMapping expects the result to be the same for each call
-    // this is not the case here
-
-    // TODO: The GetMapping should contain the id of the resource your are about to cook
-    // TODO: change name of the method as it does not describe the logic inside of it
-    // TODO: remove the diamond sign as it is not needed
-    public ResponseEntity update() {
+    public ResponseEntity getAllOrdersToBePrepared() {
         try {
-            String id = orderService.firstFirstRequestedOrder().getId();
-            orderService.changeStatus(id, Status.PREPARING);
             return new ResponseEntity<>(orderService.getAllOrdersNotDone(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
     }
 
-    // TODO: no correct implementation of REST. To create an resource of type order, a POST to /orders is enough
     @PostMapping
-    // TODO: remove the diamond sign as it is not needed
     public ResponseEntity takeOrder(@RequestBody @Validated OrderCommand orderCommand) {
         try {
             return new ResponseEntity<>(orderService.takeOrder(orderCommand), HttpStatus.OK);
@@ -64,7 +55,6 @@ public class OrderController {
     }
 
     @RequestMapping("/filter")
-    // TODO: incorrect usage of REST. Use /filter?name=xxx to filter resources on their name
     public ResponseEntity getOrderStatus(@RequestParam String name) {
         try {
             return new ResponseEntity<>(orderService.findByCustormerName(name), HttpStatus.OK);
@@ -77,7 +67,6 @@ public class OrderController {
     @PatchMapping("/{id}/{status}")
     public ResponseEntity<?> changeOrderStatus(@PathVariable String id, @PathVariable String status) {
         try {
-            // TODO: the logic to obtain the Order should be inside the changeStatus method
             Order order = orderService.changeStatus(id, Status.valueOf(status.toUpperCase()));
             return new ResponseEntity<>(order, HttpStatus.OK);
         } catch (Exception e) {
