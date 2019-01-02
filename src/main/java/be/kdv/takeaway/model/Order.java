@@ -34,4 +34,8 @@ public class Order {
 
     private Instant readyAt;
 
+    public void addMealToOrder(Meal meal){
+        meals.add(meal);
+    }
+
 }

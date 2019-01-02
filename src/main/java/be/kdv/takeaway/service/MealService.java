@@ -60,14 +60,13 @@ public class MealService {
     }
 
     public List<Meal> getByMealName(String mealName){
-        Meal meal = new Meal();
-        meal.setName(mealName);
+        Meal meal = Meal.builder().name(mealName).build();
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                //.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                 .withIgnoreCase();
         Example<Meal> mealExample = Example.of(meal,matcher);
         List<Meal> meals = mealRepository.findAll(mealExample);
-        LOGGER.info("Meals with the name {} : {}", meal, meals);
+        LOGGER.info("Meals with the name {} : {}", meal.getName(), meals);
         return meals;
     }
 

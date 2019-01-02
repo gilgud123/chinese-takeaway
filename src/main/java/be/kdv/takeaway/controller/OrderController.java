@@ -43,7 +43,7 @@ public class OrderController {
     // TODO: remove the diamond sign as it is not needed
     public ResponseEntity<?> getAllOrderNotDone() {
         try {
-            orderService.changeStatus(orderService.firdFirstRequestedOrder(), Status.PREPARING);
+            orderService.changeStatus(orderService.firstFirstRequestedOrder(), Status.PREPARING);
             return new ResponseEntity<>(orderService.getAllOrdersNotDone(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
