@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -41,7 +42,7 @@ public class OrderController {
     // TODO: The GetMapping should contain the id of the resource your are about to cook
     // TODO: change name of the method as it does not describe the logic inside of it
     // TODO: remove the diamond sign as it is not needed
-    public ResponseEntity<?> getAllOrderNotDone() {
+    public ResponseEntity getAllOrderNotDone() {
         try {
             String id = orderService.firstFirstRequestedOrder().getId();
             orderService.changeStatus(id, Status.PREPARING);
@@ -62,15 +63,16 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/{name}")
+    @RequestMapping("/filter")
     // TODO: incorrect usage of REST. Use /filter?name=xxx to filter resources on their name
-    public ResponseEntity<?> getOrderStatus(@PathVariable String name){
+    public ResponseEntity getOrderStatus(@RequestParam String name){
         try{
-            Order order = orderService.findByCustormerName(name);
-            // TODO: inline everything and use ResponseEntity.ok()
-            return new ResponseEntity<>(order, HttpStatus.OK);
+            return new ResponseEntity<>(
+                    orderService.findByCustormerName(name),
+                    HttpStatus.OK
+            );
         }catch (Exception e){
-            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e, HttpStatus.NOT_FOUND);
         }
 
     }

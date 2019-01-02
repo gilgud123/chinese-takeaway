@@ -2,6 +2,7 @@ package be.kdv.takeaway.service;
 
 import be.kdv.takeaway.bootstrap.SeedMongoDb;
 import be.kdv.takeaway.command.OrderCommand;
+import be.kdv.takeaway.exception.EntityNotFoundException;
 import be.kdv.takeaway.exception.InputNotValidException;
 import be.kdv.takeaway.exception.MealNotFoundException;
 import be.kdv.takeaway.exception.OrderNotFoundException;
@@ -28,7 +29,6 @@ import static be.kdv.takeaway.model.Status.REQUESTED;
 @Service
 public class OrderService {
 
-    // TODO: in Java there is the convention that constants should be preceded by "static final"
     private static final Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
 
     private final MealRepository mealRepository;
@@ -103,7 +103,7 @@ public class OrderService {
     }
 
     public Order changeStatus(String id, Status status) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+        Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Order.class, id));
         order.setStatus(status);
         return orderRepository.save(order);
     }
@@ -112,7 +112,7 @@ public class OrderService {
         if (name == null || name.isEmpty()) {
             throw new InputNotValidException();
         }
-        return orderRepository.findByCustomerName(name).orElseThrow(OrderNotFoundException::new);
+        return orderRepository.findByCustomerName(name).orElseThrow(() -> new EntityNotFoundException(Order.class));
     }
 
 }
