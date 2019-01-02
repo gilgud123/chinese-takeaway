@@ -59,8 +59,10 @@ public class MealService {
 
     public List<Meal> getByMealName(String mealName){
         Meal meal = Meal.builder().name(mealName).build();
-        ExampleMatcher matcher = ExampleMatcher.matching()
+        ExampleMatcher matcher = ExampleMatcher.matchingAny()
                 //.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreNullValues()
+                .withIgnorePaths("allergies")
                 .withIgnoreCase();
         Example<Meal> mealExample = Example.of(meal,matcher);
         List<Meal> meals = mealRepository.findAll(mealExample);

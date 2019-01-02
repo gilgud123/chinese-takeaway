@@ -27,10 +27,10 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity getAllOrders(){
-        try{
+    public ResponseEntity getAllOrders() {
+        try {
             return new ResponseEntity<>(orderService.getAll(), HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
     }
@@ -42,7 +42,7 @@ public class OrderController {
     // TODO: The GetMapping should contain the id of the resource your are about to cook
     // TODO: change name of the method as it does not describe the logic inside of it
     // TODO: remove the diamond sign as it is not needed
-    public ResponseEntity getAllOrderNotDone() {
+    public ResponseEntity update() {
         try {
             String id = orderService.firstFirstRequestedOrder().getId();
             orderService.changeStatus(id, Status.PREPARING);
@@ -55,35 +55,32 @@ public class OrderController {
     // TODO: no correct implementation of REST. To create an resource of type order, a POST to /orders is enough
     @PostMapping
     // TODO: remove the diamond sign as it is not needed
-    public ResponseEntity takeOrder(@RequestBody @Validated OrderCommand orderCommand){
-        try{
+    public ResponseEntity takeOrder(@RequestBody @Validated OrderCommand orderCommand) {
+        try {
             return new ResponseEntity<>(orderService.takeOrder(orderCommand), HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
     }
 
     @RequestMapping("/filter")
     // TODO: incorrect usage of REST. Use /filter?name=xxx to filter resources on their name
-    public ResponseEntity getOrderStatus(@RequestParam String name){
-        try{
-            return new ResponseEntity<>(
-                    orderService.findByCustormerName(name),
-                    HttpStatus.OK
-            );
-        }catch (Exception e){
+    public ResponseEntity getOrderStatus(@RequestParam String name) {
+        try {
+            return new ResponseEntity<>(orderService.findByCustormerName(name), HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.NOT_FOUND);
         }
 
     }
 
     @PatchMapping("/{id}/{status}")
-    public ResponseEntity<?> changeOrderStatus(@PathVariable String id, @PathVariable String status){
-        try{
+    public ResponseEntity<?> changeOrderStatus(@PathVariable String id, @PathVariable String status) {
+        try {
             // TODO: the logic to obtain the Order should be inside the changeStatus method
             Order order = orderService.changeStatus(id, Status.valueOf(status.toUpperCase()));
             return new ResponseEntity<>(order, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
 

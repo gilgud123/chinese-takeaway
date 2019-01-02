@@ -108,10 +108,7 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order findByCustormerName(String name) {
-        if (name == null || name.isEmpty()) {
-            throw new InputNotValidException();
-        }
+    public List<Order> findByCustormerName(String name) {
         return orderRepository.findByCustomerName(name).orElseThrow(() -> new EntityNotFoundException(Order.class));
     }
 
