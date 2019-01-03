@@ -3,7 +3,6 @@ package be.kdv.takeaway.service;
 import be.kdv.takeaway.bootstrap.SeedMongoDb;
 import be.kdv.takeaway.command.OrderCommand;
 import be.kdv.takeaway.exception.EntityNotFoundException;
-import be.kdv.takeaway.exception.InputNotValidException;
 import be.kdv.takeaway.exception.MealNotFoundException;
 import be.kdv.takeaway.exception.OrderNotFoundException;
 import be.kdv.takeaway.model.Meal;
