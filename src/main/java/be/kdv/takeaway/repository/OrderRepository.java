@@ -12,5 +12,6 @@ public interface OrderRepository extends MongoRepository<Order, String>, QueryBy
 
     Optional<List<Order>> findByStatusInOrderByCreatedAtAsc(Status... status);
 
-    Optional<List<Order>> findByCustomerName(String name);
+    //TODO - replace with Query By Example
+    //Optional<List<Order>> findByCustomerName(String name);
 }

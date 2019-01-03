@@ -55,9 +55,9 @@ public class OrderController {
     }
 
     @RequestMapping("/filter")
-    public ResponseEntity getOrderStatus(@RequestParam String name) {
+    public ResponseEntity getOrderStatus(@RequestParam String name, @RequestParam(required = false) String surname) {
         try {
-            return new ResponseEntity<>(orderService.findByCustormerName(name), HttpStatus.OK);
+            return new ResponseEntity<>(orderService.findByCustormerName(name, surname), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.NOT_FOUND);
         }

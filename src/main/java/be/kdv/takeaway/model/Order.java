@@ -26,6 +26,8 @@ public class Order {
 
     private String customerName;
 
+    private String customerSurname;
+
     private List<Meal> meals;
 
     private Status status;

@@ -14,6 +14,7 @@ import be.kdv.takeaway.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -96,8 +97,17 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public List<Order> findByCustormerName(String name) {
-        return orderRepository.findByCustomerName(name).orElseThrow(() -> new EntityNotFoundException(Order.class));
+    public List<Order> findByCustormerName(String name, String surname) {
+        Order order = Order.builder().customerName(name).customerSurname(surname).build();
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnoreNullValues()
+                .withIgnorePaths("id", "meals")
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreCase();
+        Example<Order> example = Example.of(order, matcher);
+        List<Order> orders = orderRepository.findAll(example);
+        LOGGER.info("The following orders match the parameters: {}", orders);
+        return orders;
     }
 
 }

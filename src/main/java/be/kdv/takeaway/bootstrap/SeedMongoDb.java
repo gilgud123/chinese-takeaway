@@ -71,24 +71,34 @@ public class SeedMongoDb implements CommandLineRunner {
                     LOGGER.info("2 meals created");
 
                     Order order1 = Order.builder()
-                                .customerName("Peter Pan")
+                                .customerName("Peter")
+                                .customerSurname("Pan")
                                 .meals(new ArrayList<>(Arrays.asList(meal1, meal2)))
                                 .status(Status.REQUESTED)
                                 .createdAt(Instant.now())
                                 .readyAt(Instant.now().plus(30, ChronoUnit.MINUTES))
                                 .build();
                     Order order2 = Order.builder()
-                                .customerName("Caption Hook")
+                                .customerName("Caption")
+                                .customerSurname("Hook")
                                 .meals(new ArrayList<>(Arrays.asList(meal2, meal3)))
                                 .status(Status.PREPARING)
                                 .createdAt(Instant.now())
-                                .readyAt(Instant.now()
-                                        .plus(30, ChronoUnit.MINUTES))
+                                .readyAt(Instant.now().plus(30, ChronoUnit.MINUTES))
                                 .build();
+                    Order order3 = Order.builder()
+                            .customerName("Wendy")
+                            .customerSurname("Pan")
+                            .meals(new ArrayList<>(Arrays.asList(meal1, meal2, meal3)))
+                            .status(Status.PREPARING)
+                            .createdAt(Instant.now())
+                            .readyAt(Instant.now().plus(30, ChronoUnit.MINUTES))
+                            .build();
 
                         orderRepository.save(order1);
                         orderRepository.save(order2);
-                        LOGGER.info("2 orders created");
+                        orderRepository.save(order3);
+                        LOGGER.info("3 orders created");
         }
     }
 }
