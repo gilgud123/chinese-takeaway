@@ -1,7 +1,6 @@
 package be.kdv.takeaway.service;
 
 import be.kdv.takeaway.model.MealStats;
-import be.kdv.takeaway.repository.MealRepository;
 import be.kdv.takeaway.repository.MealStatsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +12,9 @@ public class MealStatsService {
     private final static Logger LOGGER = LoggerFactory.getLogger(MealStats.class);
 
     private final MealStatsRepository mealStatsRepository;
-    private final MealRepository mealRepository;
 
-    public MealStatsService(MealStatsRepository mealStatsRepository, MealRepository mealRepository) {
+    public MealStatsService(MealStatsRepository mealStatsRepository) {
         this.mealStatsRepository = mealStatsRepository;
-        this.mealRepository = mealRepository;
     }
 
     private MealStats initStats(){
