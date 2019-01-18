@@ -18,7 +18,6 @@ public class MealStatsService {
     }
 
     private MealStats initStats(){
-        //List<Integer> mealNumbers = mealRepository.findAll().stream().map(Meal::getMenuNumber).collect(Collectors.toList());
         MealStats stats = new MealStats();
         LOGGER.info("Stats: {}", stats.toString());
         return stats;
