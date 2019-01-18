@@ -4,7 +4,6 @@ import be.kdv.takeaway.bootstrap.SeedMongoDb;
 import be.kdv.takeaway.command.OrderCommand;
 import be.kdv.takeaway.exception.EntityNotFoundException;
 import be.kdv.takeaway.exception.MealNotFoundException;
-import be.kdv.takeaway.exception.OrderNotFoundException;
 import be.kdv.takeaway.model.Meal;
 import be.kdv.takeaway.model.Order;
 import be.kdv.takeaway.model.Status;
@@ -48,16 +47,16 @@ public class OrderService {
     }
 
     public Order getById(String id) {
-        return orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
+        return orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Order.class, id));
     }
 
     public List<Order> getAllOrdersNotDone() {
         Optional<List<Order>> optionalOrders = orderRepository.findByStatusInOrderByCreatedAtAsc(Status.PREPARING, REQUESTED);
-        return optionalOrders.orElseThrow(OrderNotFoundException::new);
+        return optionalOrders.orElseThrow(() -> new EntityNotFoundException(Order.class));
     }
 
     public Order findFirstRequestedOrder() {
-        return orderRepository.findByStatusInOrderByCreatedAtAsc(REQUESTED).orElseThrow(OrderNotFoundException::new).get(0);
+        return orderRepository.findByStatusInOrderByCreatedAtAsc(REQUESTED).orElseThrow(() -> new EntityNotFoundException(Order.class)).get(0);
     }
 
     public Order takeOrder(OrderCommand orderCommand) {
@@ -91,7 +90,7 @@ public class OrderService {
     }
 
     public Order changeStatus(String id, Status status) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Order.class, id));
+        Order order = getById(id);
         order.setStatus(status);
         return orderRepository.save(order);
     }

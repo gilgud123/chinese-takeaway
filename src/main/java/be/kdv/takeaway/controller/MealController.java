@@ -1,6 +1,5 @@
 package be.kdv.takeaway.controller;
 
-import be.kdv.takeaway.model.Meal;
 import be.kdv.takeaway.service.MealService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/meals")
 public class MealController {
-
-    //private final Logger LOGGER = LoggerFactory.getLogger(SeedMongoDb.class);
 
     private final MealService mealService;
 
@@ -51,13 +46,6 @@ public class MealController {
         }catch (Exception e){
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
-    }
-
-    //TODO to be refactored and saved into a separate collection/document
-    //See development branch for the solution in Spring Data Rest
-    @GetMapping("/stats")
-    public List<Meal> showStats(){
-        return null;
     }
 
     @GetMapping("/query/{mealName}")

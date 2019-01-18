@@ -1,8 +1,7 @@
 package be.kdv.takeaway.service;
 
 import be.kdv.takeaway.bootstrap.SeedMongoDb;
-import be.kdv.takeaway.exception.InputNotValidException;
-import be.kdv.takeaway.exception.MealNotFoundException;
+import be.kdv.takeaway.exception.EntityNotFoundException;
 import be.kdv.takeaway.model.Allergy;
 import be.kdv.takeaway.model.Meal;
 import be.kdv.takeaway.repository.MealRepository;
@@ -33,14 +32,10 @@ public class MealService {
     }
 
     public Meal getMealById(String id){
-        return mealRepository.findById(id).orElseThrow(MealNotFoundException::new);
+        return mealRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Meal.class, id));
     }
 
     public List<Meal> excludeAllergy(String... allergies){
-        if(allergies == null){
-            throw new InputNotValidException();
-        }
-
         List<Meal> allergenicMeals = new ArrayList<>();
 
         for (Meal meal : getAllMeals()) {
@@ -60,7 +55,6 @@ public class MealService {
     public List<Meal> getByMealName(String mealName){
         Meal meal = Meal.builder().name(mealName).build();
         ExampleMatcher matcher = ExampleMatcher.matchingAny()
-                //.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                 .withIgnoreNullValues()
                 .withIgnorePaths("allergies")
                 .withIgnoreCase();
