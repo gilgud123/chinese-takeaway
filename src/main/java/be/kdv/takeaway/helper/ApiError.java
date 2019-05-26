@@ -1,15 +1,11 @@
 package be.kdv.takeaway.helper;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Getter

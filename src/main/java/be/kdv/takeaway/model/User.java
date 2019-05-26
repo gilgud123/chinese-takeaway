@@ -22,7 +22,12 @@ import java.util.Collection;
 @Document(collection = "users")
 public class User implements UserDetails {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     private String id;
 
     @NotNull

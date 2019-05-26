@@ -13,22 +13,22 @@ public class EntityNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	private String entityId;
     private int mealNum;
-    private Class entityClass;
+    private Class<?> entityClass;
     private String message;
 
-    public EntityNotFoundException(final String entityId, final Class entityClass) {
+    public EntityNotFoundException(final String entityId, final Class<?> entityClass) {
         this.entityId = entityId;
         this.entityClass = entityClass;
         this.message = "Entity of type " + entityClass.getSimpleName() + " with the id " + entityId + " not found.";
     }
 
-    public EntityNotFoundException(final int mealNum, final Class entityClass) {
+    public EntityNotFoundException(final int mealNum, final Class<?> entityClass) {
         this.mealNum = mealNum;
         this.entityClass = entityClass;
         this.message = "Entity of type " + entityClass.getSimpleName() + " with the number " + mealNum + " not found.";
     }
 
-    public EntityNotFoundException(final Class entityClass){
+    public EntityNotFoundException(final Class<?> entityClass){
         this.entityClass = entityClass;
         this.message = "Entity of type " + entityClass.getSimpleName() + " not found.";
     }
