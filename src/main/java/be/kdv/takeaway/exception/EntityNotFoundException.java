@@ -7,7 +7,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Getter
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class EntityNotFoundException extends RuntimeException {
-    private String entityId;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String entityId;
     private int mealNum;
     private Class entityClass;
     private String message;
