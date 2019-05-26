@@ -1,6 +1,6 @@
 package be.kdv.takeaway.repository;
 
-import be.kdv.takeaway.model.Order;
+import be.kdv.takeaway.model.MealOrder;
 import be.kdv.takeaway.model.Status;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
@@ -11,20 +11,20 @@ import java.util.List;
 import java.util.Optional;
 
 @RepositoryRestResource(collectionResourceRel = "orders", path = "orders")
-public interface OrderRepository extends MongoRepository<Order, String> {
+public interface OrderRepository extends MongoRepository<MealOrder, String> {
 
-    Optional<List<Order>> findByStatusInOrderByCreatedAtAsc(@Param("status")Status... status);
+    Optional<List<MealOrder>> findByStatusInOrderByCreatedAtAsc(@Param("status")Status... status);
 
     @RestResource(path = "name")
-    Optional<List<Order>> findByCustomerName(@Param("name") String customerName);
+    Optional<List<MealOrder>> findByCustomerName(@Param("name") String customerName);
 
     @RestResource(path = "similar")
-    Optional<List<Order>> findByCustomerNameLike(@Param("name") String customerName);
+    Optional<List<MealOrder>> findByCustomerNameLike(@Param("name") String customerName);
 
     // both delete overloaded methods are not exposed to the end user
     @Override
     @RestResource(exported = false)
-    void delete(Order order);
+    void delete(MealOrder order);
 
     @Override
     @RestResource(exported = false)

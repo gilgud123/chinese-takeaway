@@ -20,7 +20,7 @@ import java.util.List;
 @ToString
 @Builder
 @Document(collection = "orders")
-public class Order {
+public class MealOrder {
 
     @Id
     private String id;

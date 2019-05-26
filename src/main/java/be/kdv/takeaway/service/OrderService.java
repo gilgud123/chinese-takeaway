@@ -4,7 +4,7 @@ import be.kdv.takeaway.command.OrderCommand;
 import be.kdv.takeaway.exception.EntityNotFoundException;
 import be.kdv.takeaway.exception.InputNotValidException;
 import be.kdv.takeaway.model.Meal;
-import be.kdv.takeaway.model.Order;
+import be.kdv.takeaway.model.MealOrder;
 import be.kdv.takeaway.model.Status;
 import be.kdv.takeaway.repository.MealRepository;
 import be.kdv.takeaway.repository.OrderRepository;
@@ -35,26 +35,26 @@ public class OrderService {
         this.mealStatsService = mealStatsService;
     }
 
-    public Order getById(String id){
-        return orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Order.class));
+    public MealOrder getById(String id){
+        return orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, MealOrder.class));
     }
 
-    public List<Order> getAllOrdersNotDone(){
-        Optional<List<Order>> optionalOrders = orderRepository.findByStatusInOrderByCreatedAtAsc(Status.PREPARING, Status.REQUESTED);
-        return optionalOrders.orElseThrow(() -> new EntityNotFoundException(Order.class));
+    public List<MealOrder> getAllOrdersNotDone(){
+        Optional<List<MealOrder>> optionalOrders = orderRepository.findByStatusInOrderByCreatedAtAsc(Status.PREPARING, Status.REQUESTED);
+        return optionalOrders.orElseThrow(() -> new EntityNotFoundException(MealOrder.class));
     }
 
-    public Order findFirstRequestedOrder(){
-        return orderRepository.findByStatusInOrderByCreatedAtAsc(Status.REQUESTED).orElseThrow(() -> new EntityNotFoundException(Order.class)).get(0);
+    public MealOrder findFirstRequestedOrder(){
+        return orderRepository.findByStatusInOrderByCreatedAtAsc(Status.REQUESTED).orElseThrow(() -> new EntityNotFoundException(MealOrder.class)).get(0);
     }
 
-    public Order takeOrder(OrderCommand orderCommand){
+    public MealOrder takeOrder(OrderCommand orderCommand){
 
         if(orderCommand == null){ throw new InputNotValidException(OrderCommand.class); }
 
         Instant createdAt = Instant.now();
 
-        Order order = Order.builder()
+        MealOrder order = MealOrder.builder()
                 .customerName(orderCommand.getCustomerName())
                 .meals(new ArrayList<>())
                 .status(REQUESTED)
@@ -71,8 +71,8 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order changeStatus(Order order, Status status){
-        if(order == null){ throw new EntityNotFoundException(Order.class); }
+    public MealOrder changeStatus(MealOrder order, Status status){
+        if(order == null){ throw new EntityNotFoundException(MealOrder.class); }
         if(status == null){ throw new InputNotValidException(Status.class); }
         order.setStatus(status);
         return orderRepository.save(order);

@@ -2,7 +2,7 @@ package be.kdv.takeaway.controller;
 
 import be.kdv.takeaway.command.OrderCommand;
 import be.kdv.takeaway.exception.EntityNotFoundException;
-import be.kdv.takeaway.model.Order;
+import be.kdv.takeaway.model.MealOrder;
 import be.kdv.takeaway.model.Status;
 import be.kdv.takeaway.service.OrderService;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
@@ -34,31 +34,31 @@ public class OrderController {
     }
 
     @GetMapping(path = "/orders/cook")
-    public @ResponseBody ResponseEntity<Resources<Order>> getAllOrderNotDone() {
-        Order firstRequestedOrder;
+    public @ResponseBody ResponseEntity<Resources<MealOrder>> getAllOrderNotDone() {
+        MealOrder firstRequestedOrder;
         if(orderService.findFirstRequestedOrder() == null) {
-            throw new EntityNotFoundException(Order.class);
+            throw new EntityNotFoundException(MealOrder.class);
         } else {
             firstRequestedOrder = orderService.findFirstRequestedOrder();
         }
         orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
-        List<Order> sortedOrders = orderService.getAllOrdersNotDone();
-        Resources<Order> resources = new Resources<>(sortedOrders);
+        List<MealOrder> sortedOrders = orderService.getAllOrdersNotDone();
+        Resources<MealOrder> resources = new Resources<>(sortedOrders);
         resources.add(linkTo(methodOn(OrderController.class).getAllOrderNotDone()).withSelfRel());
         return ResponseEntity.ok(resources);
     }
 
     @PostMapping(path = "/orders", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<?> takeOrder(@RequestBody @Validated OrderCommand orderCommand) {
-        Order order = orderService.takeOrder(orderCommand);
-        Resource<Order> resource = new Resource<>(order);
+        MealOrder order = orderService.takeOrder(orderCommand);
+        Resource<MealOrder> resource = new Resource<>(order);
         resource.add(linkTo(methodOn(OrderController.class).takeOrder(orderCommand)).withSelfRel());
         return ResponseEntity.ok(resource);
     }
 
     @PatchMapping("/orders/{id}/{status}")
     public @ResponseBody ResponseEntity<?> changeOrderStatus(@PathVariable @Valid String id, @PathVariable @Valid String status) {
-        Order changedOrder = orderService.changeStatus(
+        MealOrder changedOrder = orderService.changeStatus(
                 orderService.getById(id),
                 Status.valueOf(status.toUpperCase())
             );
