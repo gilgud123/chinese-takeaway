@@ -1,15 +1,13 @@
 package be.kdv.takeaway.exception;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@Getter
-@ResponseStatus(HttpStatus.NOT_FOUND)
+import java.util.List;
+
+//@ResponseStatus(HttpStatus.NOT_FOUND)
 public class EntityNotFoundException extends RuntimeException {
-    /**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String entityId;
     private int mealNum;
@@ -33,8 +31,25 @@ public class EntityNotFoundException extends RuntimeException {
         this.message = "Entity of type " + entityClass.getSimpleName() + " not found.";
     }
 
+    public EntityNotFoundException(final List<Class<?>> entityList){
+        this.entityClass = entityList.getClass();
+        this.message = "Entity list of type " + entityClass.getSimpleName() + " not found.";
+    }
+
     @Override
     public String getMessage() {
         return message;
+    }
+
+    public String getEntityId() {
+        return entityId;
+    }
+
+    public int getMealNum() {
+        return mealNum;
+    }
+
+    public Class<?> getEntityClass() {
+        return entityClass;
     }
 }

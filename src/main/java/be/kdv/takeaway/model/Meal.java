@@ -33,6 +33,6 @@ public class Meal {
 
     private String description;
 
-    private List<Allergy> allergies = new ArrayList<>();
+    private List<Allergy> allergies;
 
 }

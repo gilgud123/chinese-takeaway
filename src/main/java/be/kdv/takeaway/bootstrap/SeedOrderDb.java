@@ -73,7 +73,7 @@ public class SeedOrderDb implements CommandLineRunner {
             MealOrder order1 = MealOrder.builder()
                                 .customerName("Peter Pan")
                                 .meals(Arrays.asList(meal1, meal2))
-                                .status(Status.REQUESTED)
+                                .status(Status.PREPARING)
                                 .createdAt(Instant.now())
                                 .readyAt(Instant.now()
                                                 .plus(30, ChronoUnit.MINUTES))

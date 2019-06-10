@@ -2,9 +2,6 @@ package be.kdv.takeaway.exception;
 
 public class InputNotValidException extends RuntimeException {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Class<?> entityClass;
     private String message;
@@ -28,11 +25,11 @@ public class InputNotValidException extends RuntimeException {
         return message;
     }
 
-	public Class<?> getEntityClass() {
+	private Class<?> getEntityClass() {
 		return entityClass;
 	}
 
-	public void setEntityClass(Class<?> entityClass) {
+	private void setEntityClass(Class<?> entityClass) {
 		this.entityClass = entityClass;
 	}
 }
