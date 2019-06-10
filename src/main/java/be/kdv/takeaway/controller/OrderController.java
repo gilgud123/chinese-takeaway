@@ -35,12 +35,7 @@ public class OrderController {
 
     @GetMapping(path = "/orders/cook")
     public @ResponseBody ResponseEntity<Resources<MealOrder>> getAllOrderNotDone() {
-        MealOrder firstRequestedOrder;
-        if(orderService.findFirstRequestedOrder() == null) {
-            throw new EntityNotFoundException(MealOrder.class);
-        } else {
-            firstRequestedOrder = orderService.findFirstRequestedOrder();
-        }
+        MealOrder firstRequestedOrder = orderService.findFirstRequestedOrder();
         orderService.changeStatus(firstRequestedOrder, Status.PREPARING);
         List<MealOrder> sortedOrders = orderService.getAllOrdersNotDone();
         Resources<MealOrder> resources = new Resources<>(sortedOrders);

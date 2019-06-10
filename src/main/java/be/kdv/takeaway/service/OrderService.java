@@ -44,7 +44,7 @@ public class OrderService {
         return optionalOrders.orElseThrow(() -> new EntityNotFoundException(MealOrder.class));
     }
 
-    public MealOrder findFirstRequestedOrder() throws EntityNotFoundException{
+    public MealOrder findFirstRequestedOrder() {
         List<MealOrder> sortedList = orderRepository.findByStatusInOrderByCreatedAtAsc(Status.REQUESTED).orElseThrow(() -> new EntityNotFoundException(MealOrder.class));
        if(sortedList.size() > 0){
            return sortedList.get(0);
@@ -54,8 +54,6 @@ public class OrderService {
     }
 
     public MealOrder takeOrder(OrderCommand orderCommand){
-
-        if(orderCommand == null){ throw new InputNotValidException(OrderCommand.class); }
 
         Instant createdAt = Instant.now();
 
