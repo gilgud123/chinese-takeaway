@@ -3,10 +3,10 @@ package be.kdv.takeaway.exception;
 public class InputNotValidException extends RuntimeException {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Class<?> entityClass;
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private Class<?> entityClass;
     private String message;
 
     public InputNotValidException(String message){
@@ -15,7 +15,7 @@ public class InputNotValidException extends RuntimeException {
 
     public InputNotValidException(Class<?> entityClass){
         this.setEntityClass(entityClass);
-        this.message = "Input for the entity of type " + entityClass.getSimpleName() + " is not valid.";;
+        this.message = "Input for the entity of type " + entityClass.getSimpleName() + " is not valid.";
     }
 
     public InputNotValidException(Class<?> entityClass, String message){
@@ -28,11 +28,11 @@ public class InputNotValidException extends RuntimeException {
         return message;
     }
 
-	public Class<?> getEntityClass() {
-		return entityClass;
-	}
+    public Class<?> getEntityClass() {
+        return entityClass;
+    }
 
-	public void setEntityClass(Class<?> entityClass) {
-		this.entityClass = entityClass;
-	}
+    public void setEntityClass(Class<?> entityClass) {
+        this.entityClass = entityClass;
+    }
 }
