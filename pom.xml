@@ -39,10 +39,10 @@
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
         <dependency>
-        <groupId>org.mongodb</groupId>
-        <artifactId>mongodb-driver-sync</artifactId>
-        <version>3.10.1</version>
-    </dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>3.10.1</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -148,7 +148,7 @@
                         </manifest>
                     </archive>
                 </configuration>
-               <executions>
+                <executions>
                     <execution>
                         <goals>
                             <goal>test-jar</goal>
